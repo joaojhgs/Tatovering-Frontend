@@ -28,7 +28,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider locale={locale}>
             <SiteHeader />
-            <main>{children}</main>
+            <main className="max-h-[calc(100vh-65px)] overflow-hidden">{children}</main>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
