@@ -15,14 +15,16 @@ export type ProviderProps = PropsWithChildren<{
 }>;
 
 export function AntdConfigProvider({ children, locale }: ProviderProps) {
-  const { theme: nowTheme } = useTheme();
 
   return (
     <ConfigProvider
       locale={(languages as any)[(locale as any) ?? defaultLocale].antd}
       theme={{
-        algorithm:
-          nowTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: {
+          colorPrimary: "#3202d2",
+          colorInfo: "#3202d2"
+        },
+        algorithm: theme.darkAlgorithm
       }}
     >
       <AntdProvider>{children}</AntdProvider>
@@ -46,8 +48,8 @@ export default function ThemeProvider(props: ProviderProps) {
   return (
     <NextThemeProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
+      forcedTheme='dark'
       disableTransitionOnChange
     >
       <AntdConfigProvider {...props} />
