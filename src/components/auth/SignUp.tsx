@@ -17,9 +17,6 @@ const SignUp = () => {
         })
     };
     return (
-        <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover"
-            style={{ backgroundImage: "url(https://images.unsplash.com/photo-1479767574301-a01c78234a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80)" }}>
-            <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
             <Card className="max-w-md w-full space-y-8 p-10 rounded-xl z-10">
                 <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold">
@@ -88,7 +85,6 @@ const SignUp = () => {
                     </p>
                 </Form>
             </Card>
-        </div>
     )
 }
 
