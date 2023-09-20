@@ -1,0 +1,22 @@
+.tatuagens-container {
+  background-color: white;
+  height: 100vh;
+  color: #000000;
+  padding: 50px;
+}
+
+.titulo {
+  font-size: 24px;
+  font-weight: bold ;
+}
+
+.titulo-container {
+  border-bottom: 1px solid black;
+}
+
+.lista-container{
+  display: flex;
+  padding: 20px 0px;
+  gap: 20px;
+  flex-wrap: wrap;
+}

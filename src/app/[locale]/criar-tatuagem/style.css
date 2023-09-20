@@ -1,0 +1,45 @@
+.container-tatuagem-externo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 95vh;
+}
+
+.container-tatuagem {
+  background-color: white;
+  height: 75%;
+  width: 30%;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 10px;
+}
+
+.container-tatuagem h3 {
+  font-size: 24px;
+  color: black;
+}
+
+.container-tatuagem input {
+  width: 70%;
+  height: 50px;
+  background-color: white;
+  border: 1px solid rgb(71, 71, 71);
+  border-radius: 2%;
+  color: black;
+  padding-left: 10px;
+}
+.container-tatuagem input:focus {
+  padding-left: 10px;
+}
+
+.container-tatuagem button {
+  width: 70%;
+  height: 50px;
+  border-radius: 2%;
+  background-color: rgb(27, 113, 211);
+}

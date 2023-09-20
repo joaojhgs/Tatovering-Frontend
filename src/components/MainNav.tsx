@@ -22,6 +22,14 @@ export function MainNav() {
       title: t('nav.home'),
       href: '/',
     },
+    {
+      title: 'Tatuagens',
+      href: '/tatuagens',
+    },
+    {
+      title: 'Criar Tatuagem',
+      href: '/criar-tatuagem',
+    },
   ];
 
   return (
