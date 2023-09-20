@@ -13,11 +13,11 @@ export default function CadastroStep2({
   handleSubmit,
   goBack,
 }: {
-  handleSubmit: () => void;
+  handleSubmit: (isTatuador: boolean) => void;
   goBack: () => void;
 }) {
   const [isTattooist, setIsTattooist] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(true);
 
   return (
     <div className="mt-4 w-full max-w-xl sm:mt-14">
@@ -80,7 +80,11 @@ export default function CadastroStep2({
         <Button size="large" onClick={goBack}>
           Voltar
         </Button>
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => handleSubmit(isTattooist)}
+        >
           {isTattooist ? 'Continuar' : 'Finalizar Cadastro'}
         </Button>
       </div>

@@ -33,7 +33,7 @@ export default function CadastroStep1({
             </Form.Item>
           </Col>
           <Col span={24} md={12}>
-            <Form.Item name="rg" label="RF">
+            <Form.Item name="rg" label="RG">
               <Input type="text" placeholder="12.345.678-90" />
             </Form.Item>
           </Col>
