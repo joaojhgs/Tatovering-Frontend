@@ -1,16 +1,27 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
+
+import { Button, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
+import QueueAnim from 'rc-queue-anim';
 
-import FormComponent from '@/components/FormComponent';
+import Banner from '@/components/homepage/banner';
+import Services from '@/components/homepage/services';
 
+const { Title } = Typography;
 export default function Page() {
   const t = useTranslations('site');
-
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <h1 className="text-center text-4xl font-extrabold !leading-tight tracking-tighter">
-        {t('desc')}
-      </h1>
-      <FormComponent />
-    </section>
+    <div>
+      <Banner />
+      <Services />
+    </div>
   );
 }

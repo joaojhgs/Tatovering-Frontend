@@ -12,6 +12,14 @@ const nextConfig = {
     // Required:
     appDir: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+    ],
+  },
 };
 
 module.exports = withNextIntl(nextConfig);
