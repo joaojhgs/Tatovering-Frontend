@@ -4,10 +4,10 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
 
-const SignIn = () => {
+const SignUp = () => {
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signin`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signup`, {
             ...values
         }, {
             withCredentials: false,
@@ -23,9 +23,9 @@ const SignIn = () => {
             <Card className="max-w-md w-full space-y-8 p-10 rounded-xl z-10">
                 <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold">
-                        Bem vindo de volta!
+                        Bem vindo!
                     </h2>
-                    <p className="mt-2 text-sm">Faça login em sua conta</p>
+                    <p className="mt-2 text-sm">Registre-se</p>
                 </div>
                 <div className="flex flex-row justify-center items-center space-x-3">
                     <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white  bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300"><img className="w-4 h-4" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0xNS45OTcgMy45ODVoMi4xOTF2LTMuODE2Yy0uMzc4LS4wNTItMS42NzgtLjE2OS0zLjE5Mi0uMTY5LTMuMTU5IDAtNS4zMjMgMS45ODctNS4zMjMgNS42Mzl2My4zNjFoLTMuNDg2djQuMjY2aDMuNDg2djEwLjczNGg0LjI3NHYtMTAuNzMzaDMuMzQ1bC41MzEtNC4yNjZoLTMuODc3di0yLjkzOWMuMDAxLTEuMjMzLjMzMy0yLjA3NyAyLjA1MS0yLjA3N3oiIGZpbGw9IiNmZmZmZmYiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+" /></span>
@@ -83,8 +83,8 @@ const SignIn = () => {
                         </Button>
                     </div>
                     <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                        <span>Não tem uma conta?</span>
-                        <a href="/auth/register" className="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Registre-se</a>
+                        <span>Já tem uma conta?</span>
+                        <a href="/auth" className="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Entre</a>
                     </p>
                 </Form>
             </Card>
@@ -92,4 +92,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn;
+export default SignUp;
