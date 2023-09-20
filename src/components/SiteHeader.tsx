@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { Button } from 'antd/lib';
+
 import Icons from './Icons';
 import LocaleSwitcher from './LocaleSwitcher';
 import { MainNav } from './MainNav';
@@ -22,6 +24,16 @@ export function SiteHeader() {
             </Link>
             <LocaleSwitcher />
             <ThemeToggle /> */}
+            <Link href="/auth/">
+              <Button type="primary" ghost className="mx-2">
+                Entrar
+              </Button>
+            </Link>
+            <Link href="/auth/register">
+              <Button type="primary" ghost className="mx-2">
+                Registrar
+              </Button>
+            </Link>
           </nav>
         </div>
       </div>
