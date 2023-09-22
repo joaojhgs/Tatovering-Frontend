@@ -1,15 +1,112 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Form, Input } from 'antd';
+import { Button, Card, Form, Input, Select } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 
 import EmblaCarousel from '@/components/EmblaCarousel';
 import Tatuagens from '@/components/homepage/tatuagens';
+import { formatToMoney } from '@/utils/formatter';
+import { requiredRule } from '@/utils/inputRules';
 import { Tatuagem } from '@/utils/interfaces';
+
+import './tatuagens.css';
+
+const toBase64 = (file: any) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+
+// drag drop file component
+function DragDropFile({ handleFiles, uploaded }: any) {
+  // drag state
+  const [dragActive, setDragActive] = React.useState(false);
+  // ref
+  const inputRef: any = React.useRef(null);
+
+  // handle drag events
+  const handleDrag = function (e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  // triggers when file is dropped
+  const handleDrop = function (e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
+  // triggers when file is selected with click
+  const handleChange = function (e: any) {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      handleFiles(e.target.files);
+    }
+  };
+
+  // triggers the input when the button is clicked
+  const onButtonClick = () => {
+    if (inputRef.current) inputRef.current.click();
+  };
+
+  return (
+    <form
+      id="form-file-upload"
+      onDragEnter={handleDrag}
+      onSubmit={(e) => e.preventDefault()}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        id="input-file-upload"
+        multiple={true}
+        onChange={handleChange}
+      />
+      <label
+        id="label-file-upload"
+        htmlFor="input-file-upload"
+        className={dragActive ? 'drag-active' : ''}
+      >
+        <div>
+          {uploaded ? (
+            'Imagem Carregada'
+          ) : (
+            <>
+              <p>Arraste o arquivo aqui ou clique</p>
+              <button className="upload-button" onClick={onButtonClick}>
+                Fazer Upload
+              </button>
+            </>
+          )}
+        </div>
+      </label>
+      {dragActive && (
+        <div
+          id="drag-file-element"
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+        ></div>
+      )}
+    </form>
+  );
+}
 
 const { Meta } = Card;
 export default function Page() {
@@ -25,7 +122,9 @@ export default function Page() {
       tatuador_id: 0,
     } as Tatuagem,
   ]);
+  const [uploaded, setUploaded] = useState(false);
   const [form] = useForm();
+
   const getTatuagens = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
       console.log(e);
@@ -33,7 +132,7 @@ export default function Page() {
     });
   };
   const registarTatuagem = (values: any) => {
-    console.log('Received values of form: ', values.desenho);
+    console.log('Received values of form: ', values);
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`, {
         desenho: values.desenho,
@@ -46,6 +145,13 @@ export default function Page() {
         getTatuagens();
       });
   };
+
+  const handleFile = async (files: any) => {
+    const file = await toBase64(files[0]);
+    form.setFieldValue('desenho', file);
+    setUploaded(true);
+  };
+
   useEffect(() => {
     getTatuagens();
   }, []);
@@ -63,42 +169,57 @@ export default function Page() {
         <Form
           form={form}
           name="tatuagem"
-          className="login-form  space-y-6"
+          className="space-y-6"
           initialValues={{ remember: true }}
           onFinish={registarTatuagem}
+          layout="vertical"
+          size="large"
         >
-          <Form.Item name="desenho">
-            <Input
-              type="text"
-              className="h-12 w-full border-b border-gray-400 py-2 text-base focus:border-indigo-500 focus:outline-none"
-              placeholder="URL da Imagem"
+          <Form.Item name="desenho" label="Imagem">
+            <DragDropFile handleFiles={handleFile} uploaded={uploaded} />
+          </Form.Item>
+          <Form.Item
+            name="estilo"
+            label="Estilo de Tatuagem"
+            rules={[requiredRule]}
+          >
+            <Select
+              placeholder="Selecione um estilo"
+              options={[
+                { value: 'Aquarela', label: 'Aquarela' },
+                { value: 'Black Work', label: 'Black Work' },
+                { value: 'Biomecânica', label: 'Biomecânica' },
+                { value: 'Celta', label: 'Celta' },
+                { value: 'Comics', label: 'Comics' },
+                { value: 'Colorida', label: 'Colorida' },
+                { value: 'Freehand', label: 'Freehand' },
+                { value: 'Geométrico', label: 'Geométrico' },
+                { value: 'Gray Wash', label: 'Gray Wash' },
+                { value: 'Lettering', label: 'Lettering' },
+                { value: 'Mandala', label: 'Mandala' },
+                { value: 'Maori', label: 'Maori' },
+                { value: 'New School', label: 'New School' },
+                { value: 'Old School', label: 'Old School' },
+                { value: 'Oriental', label: 'Oriental' },
+                { value: 'Pontilhismo', label: 'Pontilhismo' },
+                { value: 'Portrait', label: 'Portrait' },
+                { value: 'Realismo', label: 'Realismo' },
+                { value: 'Traços Finos', label: 'Traços Finos' },
+                { value: 'Tribal', label: 'Tribal' },
+              ]}
             />
           </Form.Item>
-          <Form.Item name="estilo">
-            <Input
-              type="text"
-              className="h-12 w-full border-b border-gray-400 py-2 text-base focus:border-indigo-500 focus:outline-none"
-              placeholder="Estilo"
-            />
+          <Form.Item name="cor" label="Cor">
+            <Input type="text" className="" placeholder="Cor" />
           </Form.Item>
-          <Form.Item name="cor">
-            <Input
-              type="text"
-              className="h-12 w-full border-b border-gray-400 py-2 text-base focus:border-indigo-500 focus:outline-none"
-              placeholder="Cor"
-            />
+          <Form.Item name="preco" label="Preço médio">
+            <Input type="number" className="" prefix="R$" placeholder="Preço" />
           </Form.Item>
-          <Form.Item name="preco">
+          <Form.Item name="tamanho" label="Tamanho">
             <Input
               type="number"
-              className="h-12 w-full border-b border-gray-400 py-2 text-base focus:border-indigo-500 focus:outline-none"
-              placeholder="Preço"
-            />
-          </Form.Item>
-          <Form.Item name="tamanho">
-            <Input
-              type="number"
-              className="h-12 w-full border-b border-gray-400 py-2 text-base focus:border-indigo-500 focus:outline-none"
+              className=""
+              suffix="cm"
               placeholder="Tamanho"
             />
           </Form.Item>
@@ -112,25 +233,26 @@ export default function Page() {
           </Button>
         </Form>
       </div>
-      <div className="mx-auto my-2">
-        <EmblaCarousel
-          options={{ direction: 'ltr' }}
-          slides={tatuagens.map((e, index) => {
-            return (
-              <Card
-                hoverable
-                className="mx-2"
-                key={index}
-                style={{ width: 240 }}
-                cover={
-                  <img width={240} height={240} alt="example" src={e.desenho} />
-                }
-              >
-                <Meta title={e.estilo} description={'R$ ' + e.preco} />
-              </Card>
-            );
-          })}
-        />
+      <div
+        className="mx-auto my-2"
+        style={{ maxWidth: 1000, display: 'flex', overflowX: 'scroll' }}
+      >
+        {tatuagens.map((e, index) => {
+          return (
+            <Card
+              hoverable
+              className="mx-2"
+              key={index}
+              style={{ width: 240, flexShrink: 0 }}
+              cover={
+                // eslint-disable-next-line @next/next/no-img-element
+                <img width={240} height={240} alt="example" src={e.desenho} />
+              }
+            >
+              <Meta title={e.estilo} description={'R$ ' + e.preco} />
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

@@ -42,3 +42,15 @@ export const FormatOnlyNumbers = (texto: string) => {
     return texto;
   }
 };
+
+export const formatToMoney = (texto: string) => {
+  console.log(texto);
+  try {
+    return parseInt(texto).toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  } catch {
+    return texto;
+  }
+};
