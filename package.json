@@ -24,13 +24,15 @@
     "rc-queue-anim": "^2.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwind-merge": "^1.13.2"
+    "tailwind-merge": "^1.13.2",
+    "vanilla-masker": "^1.2.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "18.13.0",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
+    "@types/vanilla-masker": "^1.2.1",
     "autoprefixer": "^10.4.14",
     "eslint": "7.32.0",
     "eslint-config-next": "13.1.6",

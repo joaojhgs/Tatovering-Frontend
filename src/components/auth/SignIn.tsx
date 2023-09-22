@@ -2,11 +2,15 @@
 
 import React from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
 
 const SignIn = () => {
+  const router = useRouter();
+
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
     axios
@@ -21,7 +25,11 @@ const SignIn = () => {
       )
       .then((e) => {
         console.log(e);
-        localStorage.setItem('token', e.data.user_token);
+        localStorage.setItem(
+          'token',
+          e.data.user_token || e.data.user.access_token,
+        );
+        router.push('/');
       });
   };
   return (

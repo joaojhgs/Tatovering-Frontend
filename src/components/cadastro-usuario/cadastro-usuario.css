@@ -1,0 +1,27 @@
+.fadeInRight {
+    transform: translateX(24px);
+    animation: fadeInRight .5s ease-out
+}
+
+@keyframes fadeInRight {
+    0% {
+        transform: translateX(24px);
+    },
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+.fadeOutRight {
+    transform: translateX(0px);
+    animation: fadeOutRight .5s ease-out
+}
+
+@keyframes fadeOutRight {
+    0% {
+        transform: translateX(0px);
+    },
+    100% {
+        transform: translateX(-24px);
+    }
+}
