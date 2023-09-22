@@ -1,14 +1,37 @@
 'use client';
 
-import { Button, Form, Input } from 'antd';
+import { useEffect, useState } from 'react';
+
+import { Button, Card, Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 
+import EmblaCarousel from '@/components/EmblaCarousel';
+import Tatuagens from '@/components/homepage/tatuagens';
+import { Tatuagem } from '@/utils/interfaces';
+
+const { Meta } = Card;
 export default function Page() {
   const t = useTranslations('site');
-
+  const [tatuagens, setTatuagens] = useState<Tatuagem[]>([
+    {
+      agendamento_id: 0,
+      cor: '',
+      desenho: '',
+      estilo: '',
+      preco: 0,
+      tamanho: 0,
+      tatuador_id: 0,
+    } as Tatuagem,
+  ]);
   const [form] = useForm();
+  const getTatuagens = () => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
+      console.log(e);
+      setTatuagens(e.data as Tatuagem[]);
+    });
+  };
   const registarTatuagem = (values: any) => {
     console.log('Received values of form: ', values);
     axios.post(
@@ -26,6 +49,9 @@ export default function Page() {
       },
     );
   };
+  useEffect(() => {
+    getTatuagens();
+  }, []);
 
   return (
     <div
@@ -88,6 +114,26 @@ export default function Page() {
             Concluir
           </Button>
         </Form>
+      </div>
+      <div className="mx-auto my-2">
+        <EmblaCarousel
+          options={{ direction: 'ltr' }}
+          slides={tatuagens.map((e, index) => {
+            return (
+              <Card
+                hoverable
+                className="mx-2"
+                key={index}
+                style={{ width: 240 }}
+                cover={
+                  <img width={240} height={240} alt="example" src={e.desenho} />
+                }
+              >
+                <Meta title={e.estilo} description={'R$ ' + e.preco} />
+              </Card>
+            );
+          })}
+        />
       </div>
     </div>
   );
