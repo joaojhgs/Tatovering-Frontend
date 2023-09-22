@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Form, Input, Select } from 'antd';
+import { Button, Card, Col, Form, Input, Row, Select } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
@@ -164,81 +164,94 @@ export default function Page() {
           'url(https://images.unsplash.com/photo-1479767574301-a01c78234a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80)',
       }}
     >
-      <div className="h-4/5 w-1/4 max-w-3xl items-center rounded-xl bg-black p-12 text-center">
+      <Card>
         <h2 className="mb-10  text-3xl font-bold">Resgistrar Tatuagem</h2>
         <Form
           form={form}
           name="tatuagem"
-          className="space-y-6"
+          className=""
           initialValues={{ remember: true }}
           onFinish={registarTatuagem}
           layout="vertical"
           size="large"
         >
-          <Form.Item name="desenho" label="Imagem">
-            <DragDropFile handleFiles={handleFile} uploaded={uploaded} />
-          </Form.Item>
-          <Form.Item
-            name="estilo"
-            label="Estilo de Tatuagem"
-            rules={[requiredRule]}
-          >
-            <Select
-              placeholder="Selecione um estilo"
-              options={[
-                { value: 'Aquarela', label: 'Aquarela' },
-                { value: 'Black Work', label: 'Black Work' },
-                { value: 'Biomecânica', label: 'Biomecânica' },
-                { value: 'Celta', label: 'Celta' },
-                { value: 'Comics', label: 'Comics' },
-                { value: 'Colorida', label: 'Colorida' },
-                { value: 'Freehand', label: 'Freehand' },
-                { value: 'Geométrico', label: 'Geométrico' },
-                { value: 'Gray Wash', label: 'Gray Wash' },
-                { value: 'Lettering', label: 'Lettering' },
-                { value: 'Mandala', label: 'Mandala' },
-                { value: 'Maori', label: 'Maori' },
-                { value: 'New School', label: 'New School' },
-                { value: 'Old School', label: 'Old School' },
-                { value: 'Oriental', label: 'Oriental' },
-                { value: 'Pontilhismo', label: 'Pontilhismo' },
-                { value: 'Portrait', label: 'Portrait' },
-                { value: 'Realismo', label: 'Realismo' },
-                { value: 'Traços Finos', label: 'Traços Finos' },
-                { value: 'Tribal', label: 'Tribal' },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item name="cor" label="Cor">
-            <Input type="text" className="" placeholder="Cor" />
-          </Form.Item>
-          <Form.Item name="preco" label="Preço médio">
-            <Input type="number" className="" prefix="R$" placeholder="Preço" />
-          </Form.Item>
-          <Form.Item name="tamanho" label="Tamanho">
-            <Input
-              type="number"
-              className=""
-              suffix="cm"
-              placeholder="Tamanho"
-            />
-          </Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="large"
-            className="focus:shadow-outline flex h-16 w-full cursor-pointer justify-center rounded-sm  font-semibold  tracking-wide  text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none"
-          >
-            Concluir
-          </Button>
+          <Row gutter={[24, 24]}>
+            <Col span={12}>
+              <Form.Item name="desenho" rules={[requiredRule]}>
+                <DragDropFile handleFiles={handleFile} uploaded={uploaded} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="estilo"
+                label="Estilo de Tatuagem"
+                rules={[requiredRule]}
+              >
+                <Select
+                  placeholder="Selecione um estilo"
+                  options={[
+                    { value: 'Aquarela', label: 'Aquarela' },
+                    { value: 'Black Work', label: 'Black Work' },
+                    { value: 'Biomecânica', label: 'Biomecânica' },
+                    { value: 'Celta', label: 'Celta' },
+                    { value: 'Comics', label: 'Comics' },
+                    { value: 'Colorida', label: 'Colorida' },
+                    { value: 'Freehand', label: 'Freehand' },
+                    { value: 'Geométrico', label: 'Geométrico' },
+                    { value: 'Gray Wash', label: 'Gray Wash' },
+                    { value: 'Lettering', label: 'Lettering' },
+                    { value: 'Mandala', label: 'Mandala' },
+                    { value: 'Maori', label: 'Maori' },
+                    { value: 'New School', label: 'New School' },
+                    { value: 'Old School', label: 'Old School' },
+                    { value: 'Oriental', label: 'Oriental' },
+                    { value: 'Pontilhismo', label: 'Pontilhismo' },
+                    { value: 'Portrait', label: 'Portrait' },
+                    { value: 'Realismo', label: 'Realismo' },
+                    { value: 'Traços Finos', label: 'Traços Finos' },
+                    { value: 'Tribal', label: 'Tribal' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="cor" label="Cor">
+                <Input type="text" className="" placeholder="Cor" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="preco" label="Preço médio">
+                <Input
+                  type="number"
+                  className=""
+                  prefix="R$"
+                  placeholder="Preço"
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="tamanho" label="Tamanho">
+                <Input
+                  type="number"
+                  className=""
+                  suffix="cm"
+                  placeholder="Tamanho"
+                />
+              </Form.Item>
+            </Col>
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="focus:shadow-outline flex h-16 w-full cursor-pointer justify-center rounded-sm  font-semibold  tracking-wide  text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none"
+            >
+              Concluir
+            </Button>
+          </Row>
         </Form>
-      </div>
-      <div
-        className="mx-auto my-2"
-        style={{ maxWidth: 1000, display: 'flex', overflowX: 'scroll' }}
-      >
-        {tatuagens.map((e, index) => {
-          return (
+        <div
+          className="mx-auto my-2"
+          style={{ maxWidth: 1200, display: 'flex', overflowX: 'scroll' }}
+        >
+          {tatuagens.map((e, index) => (
             <Card
               hoverable
               className="mx-2"
@@ -251,9 +264,9 @@ export default function Page() {
             >
               <Meta title={e.estilo} description={'R$ ' + e.preco} />
             </Card>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }

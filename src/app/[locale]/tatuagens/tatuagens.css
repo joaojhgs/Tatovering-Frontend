@@ -2,6 +2,7 @@
     height: 16rem;
     width: 28rem;
     max-width: 100%;
+    width: 100%;
     text-align: center;
     position: relative;
   }
@@ -18,7 +19,7 @@
     border-width: 2px;
     border-radius: 1rem;
     border-style: dashed;
-    border-color: #cbd5e1;
+    border-color: #424242;
   }
   
   #label-file-upload.drag-active {
