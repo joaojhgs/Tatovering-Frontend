@@ -11,13 +11,13 @@ export default function Page() {
   const [form] = useForm();
   const registarTatuagem = (values: any) => {
     console.log('Received values of form: ', values.desenho);
-    // axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`, {
-    //   desenho: values.desenho,
-    //   estilo: values.estilo,
-    //   cor: values.cor,
-    //   tamanho: values.tamanho,
-    //   preco: values.preco,
-    // });
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`, {
+      desenho: values.desenho,
+      estilo: values.estilo,
+      cor: values.cor,
+      tamanho: values.tamanho,
+      preco: values.preco,
+    });
   };
 
   return (
