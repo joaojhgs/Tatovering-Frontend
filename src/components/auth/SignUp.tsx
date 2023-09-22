@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
