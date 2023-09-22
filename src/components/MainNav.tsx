@@ -26,6 +26,10 @@ export function MainNav() {
       title: 'Tatuagens',
       href: '/tatuagens',
     },
+    {
+      title: 'Perfil',
+      href: '/cadastro-usuario',
+    },
   ];
 
   return (
