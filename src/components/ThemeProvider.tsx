@@ -23,7 +23,7 @@ export function AntdConfigProvider({ children, locale }: ProviderProps) {
           colorPrimary: '#3202d2',
           colorInfo: '#3202d2',
         },
-        algorithm: theme.darkAlgorithm,
+        algorithm: theme.defaultAlgorithm,
       }}
     >
       <AntdProvider>{children}</AntdProvider>

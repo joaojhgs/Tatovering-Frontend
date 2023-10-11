@@ -5,8 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Button, Result, Steps } from 'antd';
-import useToken from 'antd/lib/theme/useToken';
+import { Button, Result, Steps, theme } from 'antd';
 
 import thumbsUp from '@/assets/thumbsUp.png';
 import { useRequest } from '@/hooks/useRequest';
@@ -18,13 +17,14 @@ import CadastroStep2 from './steps/cadastroStep2';
 import CadastroStep3 from './steps/cadastroStep3';
 
 export default function CadastroUsuario() {
+  const { token } = theme.useToken();
+
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [userData, setUserData] = useState<any>(null);
   const [success, setSuccess] = useState(false);
 
-  const [theme, token] = useToken();
   const [createUsuario, loadingUsuario, errorUsuario] = useRequest(
     UsuarioController.createUsuario,
   );
@@ -82,7 +82,10 @@ export default function CadastroUsuario() {
 
   return (
     <div
-      style={{ backgroundColor: '#1c1b22' }}
+      style={{
+        backgroundColor: token.colorBgContainer,
+        color: token.colorTextBase,
+      }}
       className={`fixed left-0 top-0 z-[999] flex h-screen w-screen flex-col items-center justify-center px-6`}
     >
       {success ? (

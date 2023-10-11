@@ -15,6 +15,8 @@ import { Tatuagem } from '@/utils/interfaces';
 
 import './tatuagens.css';
 
+/* eslint-disable @next/next/no-img-element */
+
 const toBase64 = (file: any) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -69,6 +71,7 @@ function DragDropFile({ handleFiles, uploaded }: any) {
       id="form-file-upload"
       onDragEnter={handleDrag}
       onSubmit={(e) => e.preventDefault()}
+      style={{ border: uploaded ? 'none' : undefined }}
     >
       <input
         ref={inputRef}
@@ -82,9 +85,27 @@ function DragDropFile({ handleFiles, uploaded }: any) {
         htmlFor="input-file-upload"
         className={dragActive ? 'drag-active' : ''}
       >
-        <div>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           {uploaded ? (
-            'Imagem Carregada'
+            <div
+              style={{
+                backgroundImage: `url(${uploaded})`,
+                backgroundSize: 'contain',
+                width: '100%',
+                height: '100%',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+              }}
+            />
           ) : (
             <>
               <p>Arraste o arquivo aqui ou clique</p>
@@ -122,7 +143,7 @@ export default function Page() {
       tatuador_id: 0,
     } as Tatuagem,
   ]);
-  const [uploaded, setUploaded] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<any>(null);
   const [form] = useForm();
 
   const getTatuagens = () => {
@@ -149,7 +170,7 @@ export default function Page() {
   const handleFile = async (files: any) => {
     const file = await toBase64(files[0]);
     form.setFieldValue('desenho', file);
-    setUploaded(true);
+    setUploadedFile(file);
   };
 
   useEffect(() => {
@@ -165,7 +186,7 @@ export default function Page() {
       }}
     >
       <Card>
-        <h2 className="mb-10  text-3xl font-bold">Resgistrar Tatuagem</h2>
+        <h2 className="mb-10  text-3xl font-bold">Registrar Tatuagem</h2>
         <Form
           form={form}
           name="tatuagem"
@@ -178,7 +199,10 @@ export default function Page() {
           <Row gutter={[24, 24]}>
             <Col span={12}>
               <Form.Item name="desenho" rules={[requiredRule]}>
-                <DragDropFile handleFiles={handleFile} uploaded={uploaded} />
+                <DragDropFile
+                  handleFiles={handleFile}
+                  uploaded={uploadedFile}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -249,7 +273,7 @@ export default function Page() {
         </Form>
         <div
           className="mx-auto my-2"
-          style={{ maxWidth: 1200, display: 'flex', overflowX: 'scroll' }}
+          style={{ maxWidth: 1200, display: 'flex', overflowX: 'auto' }}
         >
           {tatuagens.map((e, index) => (
             <Card

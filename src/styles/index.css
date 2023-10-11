@@ -30,8 +30,7 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
   -moz-tab-size: 4; /* 3 */
   tab-size: 4; /* 3 */
-  font-family: theme(
-    'fontFamily.sans',
+  font-family: 
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -45,12 +44,7 @@ html {
     'Apple Color Emoji',
     'Segoe UI Emoji',
     'Segoe UI Symbol',
-    'Noto Color Emoji'
-  ); /* 4 */
-  font-feature-settings: theme(
-    'fontFamily.sans[1].fontFeatureSettings',
-    normal
-  ); /* 5 */
+    'Noto Color Emoji'; /* 4 */
 }
 
 /*

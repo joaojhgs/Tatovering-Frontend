@@ -23,7 +23,7 @@ const Banner = () => {
             src="https://i.imgur.com/hzyA9mR.png"
           />
         </div>
-        <Title level={3} className="text-center">
+        <Title level={3} className="text-center" style={{ color: '#eee' }}>
           Simplificando o agendamento de tatuagens
         </Title>
       </div>
