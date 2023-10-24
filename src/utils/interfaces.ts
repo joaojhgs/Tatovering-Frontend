@@ -6,6 +6,7 @@ export interface Tatuagem {
   preco: number;
   tamanho: number;
   tatuador_id: number;
+  imagem: string;
 }
 
 export interface Tatuador {
