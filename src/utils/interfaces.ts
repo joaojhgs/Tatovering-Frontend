@@ -10,6 +10,7 @@ export interface Tatuagem {
 }
 
 export interface Tatuador {
+  nome: string;
   estudio_id: number;
   experiencia: number;
   estilo_tatuagem: string;
