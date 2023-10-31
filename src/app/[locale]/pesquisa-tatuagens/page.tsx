@@ -8,8 +8,6 @@ import axios from 'axios';
 
 import { Tatuador, Tatuagem } from '@/utils/interfaces';
 
-const { Search } = Input;
-
 const optionsColors = [
   { value: 'aquarela', label: 'Aquarela' },
   {
@@ -35,28 +33,23 @@ export default function Page() {
   const [tatuadores, setTatuadores] = useState<Tatuador[]>([]);
   const [nomeTatuador, setNomeTatuador] = useState<string>('');
 
-  /*************************************************************************
-   *                             Routas da API                             *
-   *************************************************************************/
+  /* Routas da API */
   const getTatuagens = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuadores`).then((e) => {
-      console.log(e.data);
       setTatuadores(e.data as Tatuador[]);
-      console.log(tatuadores);
     });
   };
 
   const getTatuadores = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
-      console.log(e.data);
       setTatuagens(e.data as Tatuagem[]);
     });
   };
 
-  /*************************************************************************
-   *                             Funções Locais                            *
-   *************************************************************************/
-  const buscaTatuadorPeloNome = (nomeTatuador: string) => {
+  const getTatuagensPorTatuador = () => {};
+
+  /* Funções Locais */
+  const buscaTatuadorPeloNome = () => {
     const tatuadoresEncontrados: Tatuador[] = [];
 
     tatuadores.forEach((tatuador) => {
@@ -64,9 +57,6 @@ export default function Page() {
         tatuadoresEncontrados.push(tatuador);
       }
     });
-
-    console.log('Tatuadores encontrados:');
-    console.log(tatuadoresEncontrados);
   };
 
   const limparFiltros = () => {
@@ -77,16 +67,13 @@ export default function Page() {
   const handleChangeCor = (value: string) => setColorFilter(value);
   const handleChangeEstilo = (value: string) => setFiltroEstilo(value);
 
-  /*************************************************************************
-   *                              UseEffects                               *
-   **************************************************************************/
   useEffect(() => {
     getTatuagens();
     getTatuadores();
   }, []);
 
   useEffect(() => {
-    buscaTatuadorPeloNome(nomeTatuador);
+    buscaTatuadorPeloNome();
   }, [nomeTatuador]);
 
   return (
@@ -134,6 +121,7 @@ export default function Page() {
                   style={{ width: 240 }}
                   cover={
                     <Image
+                      className="rounded-s"
                       width={240}
                       height={280}
                       alt="example"
@@ -149,11 +137,12 @@ export default function Page() {
                 <Card
                   hoverable
                   key={index}
-                  style={{ width: 240 }}
+                  className="rounded-xl"
+                  style={{ width: 230 }}
                   cover={
                     <Image
-                      width={240}
-                      height={280}
+                      width={230}
+                      height={310}
                       alt="example"
                       src={item.imagem}
                     />

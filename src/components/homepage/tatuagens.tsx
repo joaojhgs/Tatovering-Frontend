@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Image } from 'antd';
 
 import { Tatuagem } from '@/utils/interfaces';
 
@@ -27,7 +27,12 @@ const Tatuagens = ({ tatuagens }: { tatuagens: Tatuagem[] }) => {
                 key={index}
                 style={{ width: 240 }}
                 cover={
-                  <img width={240} height={240} alt="example" src={e.desenho} />
+                  <Image
+                    width={240}
+                    height={240}
+                    alt="example"
+                    src={e.imagem}
+                  />
                 }
               >
                 <Meta title={e.estilo} description={'R$ ' + e.preco} />
