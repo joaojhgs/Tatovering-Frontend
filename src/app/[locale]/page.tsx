@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useTranslations } from 'next-intl';
 
 import Banner from '@/components/homepage/banner';
+import Estudios from '@/components/homepage/estudios/estudios';
 import Services from '@/components/homepage/services';
 import Tatuadores from '@/components/homepage/tatuadores';
 import Tatuagens from '@/components/homepage/tatuagens';
@@ -61,6 +62,7 @@ export default function Page() {
       <Services />
       <Tatuagens tatuagens={tatuagens} />
       <Tatuadores tatuadores={tatuadores} />
+      <Estudios />
     </div>
   );
 }
