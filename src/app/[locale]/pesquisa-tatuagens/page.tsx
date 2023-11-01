@@ -40,8 +40,6 @@ export default function Page() {
   const getTatuadores = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuadores`).then((e) => {
       setTatuadores(e.data as Tatuador[]);
-      console.log('Tatuadores');
-      console.log(e.data);
     });
   };
 
@@ -54,17 +52,13 @@ export default function Page() {
               `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/tatuador/${tatuador.id}`,
             )
             .then((e) => {
-              console.log(e.data);
               setTatuagens(e.data.tatuagens as Tatuagem[]);
-              console.log('Tatuagens');
             });
         }
       });
     } else {
       axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
         setTatuagens(e.data as Tatuagem[]);
-        console.log('Tatuagens');
-        console.log(e.data);
       });
     }
   };
