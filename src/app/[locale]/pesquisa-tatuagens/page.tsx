@@ -84,6 +84,7 @@ export default function Page() {
     form.resetFields();
     setColorFilter('Cor');
     setFiltroEstilo('Estilo');
+    setNomeTatuador('');
   };
 
   const handleChangeCor = (value: string) => setColorFilter(value);
