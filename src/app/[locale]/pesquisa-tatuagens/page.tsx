@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { Button, Card, Image, Input, Select, Space } from 'antd';
+import { Button, Card, Form, Image, Input, Select, Space } from 'antd';
 import Meta from 'antd/lib/card/Meta';
+import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 
 import { Tatuador, Tatuagem } from '@/utils/interfaces';
@@ -32,6 +33,8 @@ export default function Page() {
   const [tatuagens, setTatuagens] = useState<Tatuagem[]>([]);
   const [tatuadores, setTatuadores] = useState<Tatuador[]>([]);
   const [nomeTatuador, setNomeTatuador] = useState<string>('');
+
+  const [form] = useForm();
 
   /* Routas da API */
   const getTatuadores = () => {
@@ -78,6 +81,7 @@ export default function Page() {
   };
 
   const limparFiltros = () => {
+    form.resetFields();
     setColorFilter('Cor');
     setFiltroEstilo('Estilo');
   };
@@ -103,31 +107,43 @@ export default function Page() {
           'url(https://images.unsplash.com/photo-1557130641-1b14718f096a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80)',
       }}
     >
-      <div className="flex w-3/4 flex-col items-start justify-center gap-4">
+      <Form
+        form={form}
+        className="flex w-3/4 flex-col items-start justify-center gap-4"
+      >
         <Space>
-          <Input
-            placeholder="Pesquisar tatuador"
-            className="h-10 rounded-s"
-            defaultValue={''}
-            onChange={(value) => setNomeTatuador(value.target.value)}
-          />
-          <Select
-            placeholder="Estilo"
-            className="h-10  rounded-s"
-            style={{ width: 120 }}
-            onChange={handleChangeEstilo}
-            options={optionsEstilos}
-          />
-          <Select
-            placeholder="Cor"
-            className="h-10 rounded-s "
-            style={{ width: 120 }}
-            onChange={handleChangeCor}
-            options={optionsColors}
-          />
-          <Button className="h-10 rounded-s" onClick={limparFiltros}>
-            Limpar Filtros
-          </Button>
+          <Form.Item name="search-field">
+            <Input
+              placeholder="Pesquisar tatuador"
+              className="h-10 rounded-s"
+              defaultValue={''}
+              onChange={(value) => setNomeTatuador(value.target.value)}
+            />
+          </Form.Item>
+          <Form.Item name="style-field">
+            <Select
+              placeholder="Estilo"
+              className="h-10  rounded-s"
+              style={{ width: 120 }}
+              onChange={handleChangeEstilo}
+              options={optionsEstilos}
+            />
+          </Form.Item>
+          <Form.Item name="cor-field">
+            <Select
+              placeholder="Cor"
+              className="h-10 rounded-s "
+              style={{ width: 120 }}
+              onChange={handleChangeCor}
+              options={optionsColors}
+            />
+          </Form.Item>
+
+          <Form.Item name="btn-clean-fields">
+            <Button className="h-10 rounded-s" onClick={() => limparFiltros()}>
+              Limpar Filtros
+            </Button>
+          </Form.Item>
         </Space>
 
         <div className="flex w-full flex-row gap-5">
@@ -172,7 +188,7 @@ export default function Page() {
               );
           })}
         </div>
-      </div>
+      </Form>
     </div>
   );
 }
