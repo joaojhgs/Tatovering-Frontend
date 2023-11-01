@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 export type IUseRequestAction<Input, Output> = (
-  variables: Input,
+  variables?: Input,
 ) => Promise<Output>;
 
 /**
