@@ -1,8 +1,9 @@
-import { Card } from 'antd';
+import { Card, Image } from 'antd';
 
 import { Tatuador } from '@/utils/interfaces';
 
 import EmblaCarousel from '../EmblaCarousel';
+
 
 const { Meta } = Card;
 
@@ -25,8 +26,16 @@ const Tatuadores = ({ tatuadores }: { tatuadores: Tatuador[] }) => {
                 className="mx-2"
                 key={index}
                 style={{ width: 240 }}
+                cover={
+                  <Image
+                    width={240}
+                    height={240}
+                    alt="example"
+                    src={e.imagem_perfil}
+                  />
+                }
               >
-                <Meta title={e.estilo_tatuagem} description={e.experiencia} />
+                <Meta title={e.nome} />
               </Card>
             );
           })}

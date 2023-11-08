@@ -53,7 +53,7 @@ export default function Page() {
       setTatuagens(e.data as Tatuagem[]);
     });
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuadores`).then((e) => {
-      console.log(e);
+      console.log('tatuadores', e);
       setTatuadores(e.data as Tatuador[]);
     });
   }, []);

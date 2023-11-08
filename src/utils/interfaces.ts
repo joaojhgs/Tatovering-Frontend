@@ -13,6 +13,7 @@ export interface Tatuagem {
 export interface Tatuador {
   id: string;
   nome: string;
+  imagem_perfil: string;
   estudio_id: number;
   experiencia: number;
   estilo_tatuagem: string;
