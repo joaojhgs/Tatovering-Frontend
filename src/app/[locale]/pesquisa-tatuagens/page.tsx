@@ -127,7 +127,7 @@ export default function Page() {
           <Form.Item name="cor-field">
             <Select
               placeholder="Cor"
-              className="h-10 rounded-s "
+              className="h-10 rounded-xl "
               style={{ width: 120 }}
               onChange={handleChangeCor}
               options={optionsColors}
@@ -148,16 +148,9 @@ export default function Page() {
                 <Card
                   hoverable
                   key={index}
-                  style={{ width: 240 }}
-                  cover={
-                    <Image
-                      className="rounded-s"
-                      width={240}
-                      height={280}
-                      alt="example"
-                      src={item.imagem}
-                    />
-                  }
+                  className="rounded-xl"
+                  style={{ width: 260 }}
+                  cover={<Image height={360} alt="example" src={item.imagem} />}
                 >
                   <Meta title={item.estilo} description={'R$ ' + item.preco} />
                 </Card>
@@ -168,15 +161,8 @@ export default function Page() {
                   hoverable
                   key={index}
                   className="rounded-xl"
-                  style={{ width: 230 }}
-                  cover={
-                    <Image
-                      width={230}
-                      height={310}
-                      alt="example"
-                      src={item.imagem}
-                    />
-                  }
+                  style={{ width: 260 }}
+                  cover={<Image height={360} alt="example" src={item.imagem} />}
                 >
                   <Meta title={item.estilo} description={'R$ ' + item.preco} />
                 </Card>
