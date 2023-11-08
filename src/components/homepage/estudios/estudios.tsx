@@ -3,8 +3,14 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
-import { DownOutlined, EyeOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  ClockCircleOutlined,
+  DownOutlined,
+  EyeOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import { Button, Card, Col, Row, Tooltip } from 'antd';
+import moment from 'moment';
 import { Popup } from 'react-map-gl';
 
 import icone from '@/assets/icon-marker.png';
@@ -14,6 +20,17 @@ import EstudioController from '@/structures/controllers/EstudiosController';
 import { Estudio } from '@/structures/interfaces/Estudio';
 
 export default function Estudios() {
+  const days = [
+    'domingo',
+    'segunda',
+    'terca',
+    'quarta',
+    'quinta',
+    'sexta',
+    'sabado',
+    'domingo',
+  ];
+
   const [getEstudios, loading] = useRequest(EstudioController.getEstudios);
 
   const [estudios, setEstudios] = useState<Estudio[]>([]);
@@ -104,10 +121,59 @@ export default function Estudios() {
     );
   };
 
+  const getStatus = (estudio: Estudio) => {
+    const today = days[moment().day()];
+    interface vtncts {
+      segunda: [string, string];
+      terca: [string, string];
+      quarta: [string, string];
+      quinta: [string, string];
+      sexta: [string, string];
+      sabado: [string, string];
+      domingo: [string, string];
+    }
+
+    console.log(moment().hour());
+
+    if (
+      moment().isBetween(
+        moment(
+          estudio.horario_funcionamento[today as keyof vtncts][0],
+          'HH:mm',
+        ),
+        moment(
+          estudio.horario_funcionamento[today as keyof vtncts][1],
+          'HH:mm',
+        ),
+      )
+    ) {
+      return (
+        <span style={{ color: 'green', marginLeft: 8 }}>
+          <ClockCircleOutlined /> Aberto
+        </span>
+      );
+    }
+    return (
+      <span style={{ color: 'red', marginLeft: 8 }}>
+        <ClockCircleOutlined /> Fechado
+      </span>
+    );
+  };
+
   const renderLista = () => {
     const list = estudios.map((estudio, index) => (
       <Col span={24} className="mb-4">
-        <Card>
+        <Card
+          style={{
+            transition: 'filter .6s ease, transform .3s ease',
+            filter:
+              popup && popup.email != estudio.email ? 'blur(4px)' : 'blur(0px)',
+            transform:
+              popup && popup.email == estudio.email
+                ? 'scale(1.02)'
+                : 'scale(1)',
+          }}
+        >
           <Row>
             <Col span={20}>
               <Row>
@@ -116,7 +182,7 @@ export default function Estudios() {
                 </Col>
                 <Col span={24}>
                   <span className="mt-2 text-base opacity-60">
-                    Rua são josafat 1298, Campo Mourão, PR. 87302-170.
+                    {estudio.endereco}
                   </span>
                 </Col>
                 <Col span={24}>
@@ -140,11 +206,12 @@ export default function Estudios() {
                     }
                     type="link"
                   >
-                    Ver horários de funcionamento
+                    Ver horários de funcionamento{' '}
+                    <span>{getStatus(estudio)}</span>
                   </Button>
                   <div
                     style={{
-                      marginLeft: 38,
+                      marginLeft: 24,
                       overflow: 'hidden',
                       height: showHours === index ? 154 : 0,
                       transition: 'height .3s ease',
@@ -166,13 +233,12 @@ export default function Estudios() {
                       transition: 'transform .3s ease',
                     }}
                     className="hover:scale-110"
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={() => {
                       setFlyTo({
-                        center: [
-                          estudio.localizacao.longitude,
-                          estudio.localizacao.latitude,
-                        ],
+                        center: {
+                          lng: estudio.localizacao.longitude,
+                          lat: estudio.localizacao.latitude,
+                        },
                       });
                     }}
                   />
@@ -217,10 +283,9 @@ export default function Estudios() {
               size: 0.2,
               ...estudio,
             }))}
-            markerOnClick={console.log}
             flyTo={flyTo}
           >
-            {!!popup && (
+            {/* {!!popup && (
               <Popup
                 {...JSON.parse(popup.localizacao)}
                 anchor="bottom"
@@ -228,7 +293,7 @@ export default function Estudios() {
               >
                 <span className="text-gray-900">{popup.nome}</span>
               </Popup>
-            )}
+            )} */}
           </MapBoxMap>
         </Col>
       </Row>

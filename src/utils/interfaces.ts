@@ -2,6 +2,7 @@ export interface Tatuagem {
   agendamento_id: number;
   cor: string;
   desenho: string;
+  imagem: string;
   estilo: string;
   preco: number;
   tamanho: number;

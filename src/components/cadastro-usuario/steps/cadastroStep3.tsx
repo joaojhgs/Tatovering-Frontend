@@ -32,11 +32,11 @@ export default function CadastroStep3({
               name="estilo_tatuagem"
               label="Estilo de Tatuagem"
               initialValue=""
-              required
             >
               <Select
+                placeholder="Nenhum definido"
+                mode="multiple"
                 options={[
-                  { value: '', label: 'Nenhum definido' },
                   { value: 'Aquarela', label: 'Aquarela' },
                   { value: 'Black Work', label: 'Black Work' },
                   { value: 'Biomecânica', label: 'Biomecânica' },
@@ -64,6 +64,7 @@ export default function CadastroStep3({
           <Col span={24} md={12}>
             <Form.Item name="tipo" label="Tipo de profissional" required>
               <Select
+                placeholder="Selecionar tipo"
                 options={[
                   { value: 'autonomo', label: 'Autônomo' },
                   { value: 'proprietario', label: 'Proprietário de Estúdio' },

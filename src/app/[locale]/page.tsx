@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 
 import Banner from '@/components/homepage/banner';
 import Estudios from '@/components/homepage/estudios/estudios';
+import Footer from '@/components/homepage/footer';
 import Services from '@/components/homepage/services';
 import Tatuadores from '@/components/homepage/tatuadores';
 import Tatuagens from '@/components/homepage/tatuagens';
@@ -63,6 +64,7 @@ export default function Page() {
       <Tatuagens tatuagens={tatuagens} />
       <Tatuadores tatuadores={tatuadores} />
       <Estudios />
+      <Footer />
     </div>
   );
 }
