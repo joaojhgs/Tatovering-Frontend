@@ -28,11 +28,7 @@ export default function CadastroStep3({
             </Form.Item>
           </Col>
           <Col span={24} md={12}>
-            <Form.Item
-              name="estilo_tatuagem"
-              label="Estilo de Tatuagem"
-              initialValue=""
-            >
+            <Form.Item name="estilo_tatuagem" label="Estilo de Tatuagem">
               <Select
                 placeholder="Nenhum definido"
                 mode="multiple"

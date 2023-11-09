@@ -80,6 +80,21 @@ export default function CadastroUsuario() {
       .catch((err) => {});
   };
 
+  const stepsItems = [
+    {
+      title: 'Informações Básicas',
+    },
+    {
+      title: 'Tipo de Usuário',
+    },
+  ];
+
+  if (currentStep === 2) {
+    stepsItems.push({
+      title: 'Perguntas Específicas',
+    });
+  }
+
   return (
     <div
       style={{
@@ -123,17 +138,7 @@ export default function CadastroUsuario() {
               size="small"
               progressDot
               current={currentStep}
-              items={[
-                {
-                  title: 'Informações Básicas',
-                },
-                {
-                  title: 'Tipo de Usuário',
-                },
-                {
-                  title: 'Perguntas Específicas',
-                },
-              ]}
+              items={stepsItems}
             />
           </div>
           {currentStep === 0 && (

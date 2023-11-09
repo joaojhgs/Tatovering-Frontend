@@ -1,11 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/router';
+
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 
 const SignUp = () => {
+  const router = useRouter();
+
   const [form] = useForm();
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -23,6 +27,7 @@ const SignUp = () => {
       .then((e) => {
         console.log(e);
         localStorage.setItem('token', e.data.user_token);
+        router.push('/cadsatro-usuario');
       });
   };
   return (
