@@ -45,7 +45,7 @@ function Estudios() {
 
   return (
     <div className="h-screen w-screen bg-white">
-      <div className="flex h-1/4 items-end justify-end bg-gray-500">
+      <div className="flex h-1/3 items-end justify-end bg-gray-500">
         <Image
           className="align-center h-full bg-cover"
           src={img}
@@ -91,7 +91,7 @@ function Estudios() {
                 />
               );
             })}
-          {!tatuadores && <CardTatuadores />}
+          {!tatuadores && [<CardTatuadores />, <CardTatuadores />]}
         </div>
         <div className="w-1/4"></div>
       </div>

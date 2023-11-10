@@ -18,12 +18,10 @@ export default function CardTatuadores({
 
       <div className="w-3/4 p-1">
         <div className="mb-2 flex w-full flex-row items-center justify-between text-center ">
-          <h3 className="my-auto text-2xl font-bold text-black ">
-            {estilo_tatuagem}
-          </h3>
+          <h3 className="my-auto text-2xl font-bold text-black ">{nome} </h3>
           <a className="cursor-pointer text-blue-500">Ver Portifólio</a>
         </div>
-        <p>{nome}</p>
+        <p>Estilos: {estilo_tatuagem}</p>
         <div className="flex h-6 flex-row justify-start  gap-4">
           <p className="text-gray-800">Avaliação dos clientes</p>
           <Rate disabled defaultValue={4.5} />
