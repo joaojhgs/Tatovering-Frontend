@@ -7,9 +7,6 @@ import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 
-import EmblaCarousel from '@/components/EmblaCarousel';
-import Tatuagens from '@/components/homepage/tatuagens';
-import { formatToMoney } from '@/utils/formatter';
 import { requiredRule } from '@/utils/inputRules';
 import { Tatuagem } from '@/utils/interfaces';
 
