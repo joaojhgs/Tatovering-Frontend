@@ -57,7 +57,6 @@ export default function Estudios() {
 
       mapRef.on('mouseenter', ['MarkerLayer'], (e: any) => {
         setMouse('pointer');
-        console.log(e);
         onHover(e, mapRef);
       });
 
@@ -72,8 +71,6 @@ export default function Estudios() {
   useEffect(() => {
     getEstudios()
       .then((response) => {
-        console.log('resp');
-        console.log(response);
         setEstudios(response);
       })
       .catch(console.log);
@@ -133,8 +130,6 @@ export default function Estudios() {
       sabado: [string, string];
       domingo: [string, string];
     }
-
-    console.log(moment().hour());
 
     if (
       moment().isBetween(
@@ -207,7 +202,7 @@ export default function Estudios() {
                     }
                     type="link"
                   >
-                    Ver horários de funcionamento{' '}
+                    Ver horários de funcionamento{' - '}
                     <span>{getStatus(estudio)}</span>
                   </Button>
                   <div
@@ -269,10 +264,10 @@ export default function Estudios() {
         Faça um agendamento com o seu estúdio favorito.
       </p>
       <Row style={{ marginTop: 24 }}>
-        <Col span={12}>
+        <Col md={12} span={24}>
           <Row className="w-full px-4">{renderLista()}</Row>
         </Col>
-        <Col span={12}>
+        <Col md={12} span={24}>
           <MapBoxMap
             center={[-52.3786073, -24.0471264]}
             zoom={15}

@@ -8,8 +8,13 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
 
+import { useRequest } from '@/hooks/useRequest';
+import UsuarioController from '@/structures/controllers/UsuariosController';
+import Usuario from '@/utils/usuario';
+
 const SignIn = () => {
   const router = useRouter();
+  const [getUser] = useRequest(UsuarioController.getUserById);
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -29,7 +34,14 @@ const SignIn = () => {
           'token',
           e.data.user_token || e.data.user.access_token,
         );
-        router.push('/');
+        getUser({ id: Usuario.getUsuario().sub }).then((user) => {
+          console.log('USER:', user);
+          if (user) {
+            router.push('/');
+          } else {
+            router.push('/cadastro-usuario');
+          }
+        });
       });
   };
   return (

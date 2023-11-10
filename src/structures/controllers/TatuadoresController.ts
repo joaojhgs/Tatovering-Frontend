@@ -1,24 +1,10 @@
 import axios from '@/utils/axios-config';
 
 export default class TatuadoresController {
-  static createTatuador: any = ({
-    experience,
-    estilo_tatuagem,
-    tipo,
-    instagram,
-  }: any) =>
+  static createTatuador: any = (values: any) =>
     new Promise((resolve, reject) => {
-      const redes_sociais = {
-        instagram,
-      };
-
       axios
-        .post('/tatuadores', {
-          experience,
-          estilo_tatuagem,
-          tipo,
-          redes_sociais,
-        })
+        .post('/tatuadores', values)
         .then(({ data }) => resolve(data))
         .catch(reject);
     });

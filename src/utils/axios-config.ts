@@ -9,9 +9,9 @@ const axios = Axios.create({
   // baseURL: process.env.NEXT_PUBLIC_API_URL,
   baseURL: 'http://localhost:8080',
   // withCredentials: false,
-  // headers: {
-  //   Authorization: `Bearer ${token}`,
-  // },
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
 });
 
 axios.interceptors.request.use(

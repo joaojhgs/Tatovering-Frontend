@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 
 export default function CadastroStep3({
@@ -14,6 +16,7 @@ export default function CadastroStep3({
   }) => void;
   goBack: () => void;
 }) {
+  const [option, setOption] = useState(null);
   return (
     <div className="mt-4 w-full max-w-xl sm:mt-14">
       <Form onFinish={handleSubmit} layout="vertical">
@@ -61,6 +64,7 @@ export default function CadastroStep3({
             <Form.Item name="tipo" label="Tipo de profissional" required>
               <Select
                 placeholder="Selecionar tipo"
+                onSelect={(opt) => setOption(opt)}
                 options={[
                   { value: 'autonomo', label: 'Autônomo' },
                   { value: 'proprietario', label: 'Proprietário de Estúdio' },
@@ -80,7 +84,7 @@ export default function CadastroStep3({
             Voltar
           </Button>
           <Button type="primary" size="large" htmlType="submit">
-            Finalizar Cadastro
+            {option === 'proprietario' ? 'Continuar' : 'Finalizar Cadastro'}
           </Button>
         </div>
       </Form>

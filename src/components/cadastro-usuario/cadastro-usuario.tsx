@@ -9,21 +9,30 @@ import { Button, Result, Steps, theme } from 'antd';
 
 import thumbsUp from '@/assets/thumbsUp.png';
 import { useRequest } from '@/hooks/useRequest';
+import EstudioController from '@/structures/controllers/EstudiosController';
 import TatuadoresController from '@/structures/controllers/TatuadoresController';
 import UsuarioController from '@/structures/controllers/UsuariosController';
+import Usuario from '@/utils/usuario';
 
 import CadastroStep1 from './steps/cadastroStep1';
 import CadastroStep2 from './steps/cadastroStep2';
 import CadastroStep3 from './steps/cadastroStep3';
+import CadastroStep4 from './steps/cadastroStep4';
+import CadastroStep5 from './steps/cadastroStep5';
 
 export default function CadastroUsuario() {
   const { token } = theme.useToken();
 
   const router = useRouter();
 
+  const userId = Usuario.getUsuario().sub;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [userData, setUserData] = useState<any>(null);
   const [success, setSuccess] = useState(false);
+
+  const [tatuadorData, setTatuadorData] = useState<any>(null);
+  const [estudioData, setEstudioData] = useState<any>(null);
 
   const [createUsuario, loadingUsuario, errorUsuario] = useRequest(
     UsuarioController.createUsuario,
@@ -31,6 +40,8 @@ export default function CadastroUsuario() {
   const [createTatuador, loadingTatuador, errorTatuador] = useRequest(
     TatuadoresController.createTatuador,
   );
+
+  const [createEstudio] = useRequest(EstudioController.createEstudio);
 
   const handleStep1Submit = (values: {
     nome: string;
@@ -67,6 +78,12 @@ export default function CadastroUsuario() {
     tipo: string;
     instagram: string;
   }) => {
+    if (values.tipo === 'proprietario') {
+      setCurrentStep((prev) => prev + 1);
+      setTatuadorData(values);
+      return;
+    }
+
     createUsuario(userData)
       .then((user) => {
         console.log(user);
@@ -80,6 +97,33 @@ export default function CadastroUsuario() {
       .catch((err) => {});
   };
 
+  const handleStep4Submit = (values: any) => {
+    setCurrentStep((prev) => prev + 1);
+    setEstudioData(values);
+  };
+
+  const handleStep5Submit = (values: any) => {
+    createUsuario(userData).then((user) => {
+      createEstudio({
+        ...estudioData,
+        ...values,
+        proprietario_id: userId,
+        taxa_agendamento: 0,
+      }).then((estudio: any) => {
+        createTatuador({
+          estudio_id: estudio.id,
+          usuario_id: userId,
+          ...tatuadorData,
+        })
+          .then((resp) => {
+            console.log(resp);
+            router.push('/');
+          })
+          .catch((err) => {});
+      });
+    });
+  };
+
   const stepsItems = [
     {
       title: 'Informações Básicas',
@@ -89,9 +133,19 @@ export default function CadastroUsuario() {
     },
   ];
 
-  if (currentStep === 2) {
+  if (currentStep > 1) {
     stepsItems.push({
       title: 'Perguntas Específicas',
+    });
+  }
+  if (currentStep > 2) {
+    stepsItems.push({
+      title: 'Sobre o Estúdio',
+    });
+  }
+  if (currentStep > 3) {
+    stepsItems.push({
+      title: 'Horário de Funcionamento',
     });
   }
 
@@ -149,6 +203,12 @@ export default function CadastroUsuario() {
           )}
           {currentStep === 2 && (
             <CadastroStep3 goBack={goBack} handleSubmit={handleStep3Submit} />
+          )}
+          {currentStep === 3 && (
+            <CadastroStep4 goBack={goBack} handleSubmit={handleStep4Submit} />
+          )}
+          {currentStep === 4 && (
+            <CadastroStep5 goBack={goBack} handleSubmit={handleStep5Submit} />
           )}
         </>
       )}

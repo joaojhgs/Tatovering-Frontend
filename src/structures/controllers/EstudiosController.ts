@@ -34,8 +34,6 @@ export default class EstudioController {
       axios
         .get(`/estudios`)
         .then(({ data }) => {
-          console.log(data)
-          console.log(data);
           const parsedData = data.map((estudio: any) => {
             const parsedCoords = estudio.localizacao.slice(1, -1).split(',');
             return {
@@ -46,9 +44,13 @@ export default class EstudioController {
               },
             };
           });
-          console.log('prased', parsedData);
           resolve(parsedData);
         })
         .catch(reject);
+    });
+
+  static createEstudio = (values: any) =>
+    new Promise((resolve, reject) => {
+      axios.post('/estudios', values).then(resolve).catch(reject);
     });
 }

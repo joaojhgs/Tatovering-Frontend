@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
@@ -27,7 +27,7 @@ const SignUp = () => {
       .then((e) => {
         console.log(e);
         localStorage.setItem('token', e.data.user_token);
-        router.push('/cadsatro-usuario');
+        router.push('/cadastro-usuario');
       });
   };
   return (
