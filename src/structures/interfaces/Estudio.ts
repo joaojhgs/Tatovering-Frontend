@@ -1,6 +1,9 @@
 export interface Estudio {
+  id: string;
   nome: string;
   email: string;
+  imagem_capa: string;
+  imagem_perfil: string;
   taxa_agendamento: number;
   telefone: number;
   descricao: string;

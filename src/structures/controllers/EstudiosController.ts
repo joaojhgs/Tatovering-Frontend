@@ -34,6 +34,7 @@ export default class EstudioController {
       axios
         .get(`/estudios`)
         .then(({ data }) => {
+          console.log(data)
           console.log(data);
           const parsedData = data.map((estudio: any) => {
             const parsedCoords = estudio.localizacao.slice(1, -1).split(',');

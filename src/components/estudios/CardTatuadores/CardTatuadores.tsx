@@ -9,7 +9,7 @@ import img from '../images/img_profile.jpeg';
 export default function CardTatuadores({
   nome = 'Alemão',
   estilo_tatuagem = 'Realismo',
-}: Tatuador) {
+}: Partial<Tatuador>) {
   return (
     <div className="flex h-36 w-10/12 flex-row gap-8 rounded-xl bg-white p-5 text-black shadow-lg">
       <div className="w-1/4p-1">

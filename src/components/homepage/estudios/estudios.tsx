@@ -18,6 +18,7 @@ import MapBoxMap from '@/components/map/mapBoxMap';
 import { useRequest } from '@/hooks/useRequest';
 import EstudioController from '@/structures/controllers/EstudiosController';
 import { Estudio } from '@/structures/interfaces/Estudio';
+import { useRouter } from 'next/navigation';
 
 export default function Estudios() {
   const days = [
@@ -38,7 +39,7 @@ export default function Estudios() {
   const [eventsCreated, setEventsCreated] = useState(false);
   const [popup, setPopup] = useState<any>(null);
   const [showHours, setShowHours] = useState<any>(null);
-
+  const router = useRouter()
   const onHover = (event: any, map: any) => {
     const area = event.features[0].properties;
     setPopup(area);
@@ -247,7 +248,7 @@ export default function Estudios() {
               <Button
                 type="primary"
                 style={{ marginTop: 'auto' }}
-                onClick={() => console.log(estudio)}
+                onClick={() => router.push(`/estudios/${estudio.id}`)}
               >
                 Saber Mais
               </Button>
