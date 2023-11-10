@@ -248,7 +248,7 @@ export default function Estudios() {
               <Button
                 type="primary"
                 style={{ marginTop: 'auto' }}
-                onClick={() => router.push(`/estudios/${estudio.id}`)}
+                onClick={() => router.push(`/estudio/${estudio.id}`)}
               >
                 Saber Mais
               </Button>

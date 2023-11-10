@@ -131,11 +131,12 @@ function Estudios({ id }: { id: string }) {
 
   return (
     <div className="h-screen w-screen bg-white">
-      <div className="flex h-1/3 items-end justify-end bg-gray-500">
+      <div className="flex h-1/3 items-end justify-end bg-gray-500 relative">
         <Image
-          className="align-center h-full bg-cover"
-          src={estudio?.imagem_capa !== ' ' ? img : estudio?.imagem_capa}
+          className="align-center h-full object-cover"
+          src={(estudio?.imagem_capa.length && estudio?.imagem_capa.length > 0) ? estudio?.imagem_capa : img}
           alt="imagem"
+          fill
         />
         <Button className="absolute mb-5 mr-16 h-12 w-32 border-none bg-blue-600 text-xl font-bold text-white hover:text-white">
           Seguir
@@ -144,11 +145,14 @@ function Estudios({ id }: { id: string }) {
 
       <div className="flex w-screen flex-row px-12">
         <div className="h-1/2 w-1/3 ">
-          <div className=" -mt-24 flex flex-col items-center justify-center gap-10  bg-transparent ">
+          <div className="absolute -left-10 -mt-24 flex flex-col items-center justify-center gap-10 z-40 bg-transparent ">
             <Image
-              className="h-52 w-52 rounded-full "
-              src={estudio?.imagem_perfil !== ' ' ? imgProfile : estudio?.imagem_capa}
+              className="h-52 w-52 rounded-full object-cover "
+              src={(estudio?.imagem_perfil.length && estudio?.imagem_perfil.length > 0) ? estudio?.imagem_perfil : img}
               alt="imagem"
+              height={208}
+              width={208}
+
             />
             <div className="text-center">
               <h2 className="font-serif text-5xl text-black">
@@ -173,8 +177,7 @@ function Estudios({ id }: { id: string }) {
             tatuadores.map((tatuador) => {
               return (
                 <CardTatuadores
-                  nome={tatuador.nome}
-                  estilo_tatuagem={tatuador.estilo_tatuagem}
+                  {...tatuador}
                 />
               );
             }) : <Empty description="Nenhum tatuador" />}
