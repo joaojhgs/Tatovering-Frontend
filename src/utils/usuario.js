@@ -5,7 +5,14 @@ const Usuario = {
         if (typeof window !== 'undefined') {
             try {
                 const storageUsuario = localStorage.getItem('token');
-                return jwtDecode(storageUsuario || null);
+                if (!storageUsuario) {
+                    return null;
+                }
+                const response = jwtDecode(storageUsuario);
+                return {
+                    ...response,
+                    id: response.sub,
+                };
             } catch (e) {
                 localStorage.removeItem('token');
             }

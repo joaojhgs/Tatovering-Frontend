@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 
-import { Button } from 'antd/lib';
+import { Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useRequest from '../../hooks/useRequest';
@@ -15,17 +15,14 @@ export default function SiteHeader() {
 
     const [getUser] = useRequest(UsuarioController.getUserById);
 
-    console.log('running');
     useEffect(() => {
-        console.log('teste');
-        return;
         if (loggedUser) {
             getUser({ id: loggedUser.sub }).then((user) => {
                 console.log('USER:', user);
                 if (user) {
-                    navigate(0);
+                    // navigate(0);
                 } else {
-                    navigate('cadastro-usuario');
+                    navigate('cadastro-usuario', { replace: true });
                 }
             });
         }
@@ -38,17 +35,24 @@ export default function SiteHeader() {
                 <div className="flex flex-1 items-center justify-end space-x-4">
                     <nav className="flex items-center space-x-1">
                         {loggedUser ? (
-                            <Button
-                                type="primary"
-                                ghost
-                                className="mx-2"
-                                onClick={() => {
-                                    Usuario.doLogout();
-                                    navigate(0);
-                                }}
-                            >
-                                Sair
-                            </Button>
+                            <>
+                                <Link to="/dashboard">
+                                    <Button type="primary" className="mx-2">
+                                        Dashboard
+                                    </Button>
+                                </Link>
+                                <Button
+                                    type="primary"
+                                    ghost
+                                    className="mx-2"
+                                    onClick={() => {
+                                        Usuario.doLogout();
+                                        navigate(0);
+                                    }}
+                                >
+                                    Sair
+                                </Button>
+                            </>
                         ) : (
                             <>
                                 <Link to="/auth/">

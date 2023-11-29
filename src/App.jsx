@@ -6,6 +6,7 @@ import './App.css';
 import 'antd/dist/reset.css';
 
 import SiteHeader from './components/layout/SiteHeader';
+import DashboardPage from './pages/dashboardPage';
 import { ThemeProvider } from './providers/themeProvider';
 import Routes from './routes';
 
@@ -22,6 +23,10 @@ function App() {
                 </>
             ),
             children: Routes,
+        },
+        {
+            path: '/dashboard/*',
+            element: <DashboardPage />,
         },
     ]);
 

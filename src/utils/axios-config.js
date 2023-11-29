@@ -4,8 +4,7 @@ const token =
     typeof window !== 'undefined' ? localStorage.getItem('token') : '';
 
 const axios = Axios.create({
-    // baseURL: process.env.NEXT_PUBLIC_API_URL,
-    baseURL: 'http://localhost:8080',
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     // withCredentials: false,
     headers: {
         Authorization: `Bearer ${token}`,
@@ -14,7 +13,13 @@ const axios = Axios.create({
 
 axios.interceptors.request.use(
     (config) => {
-        return config;
+        const currentToken = localStorage.getItem('token') || '';
+        return {
+            ...config,
+            headers: {
+                Authorization: `Bearer ${currentToken}`,
+            },
+        };
     },
     (error) => {
         return Promise.reject(error);

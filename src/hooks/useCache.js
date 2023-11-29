@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -20,9 +21,9 @@ const CacheProvider = ({ children }) => {
         data,
         options = {
             maxAgeInMinutes: 5,
-        }
+        },
     ) => {
-        setCache(prevCache => ({
+        setCache((prevCache) => ({
             ...prevCache,
             [key]: {
                 data,
@@ -32,7 +33,8 @@ const CacheProvider = ({ children }) => {
         }));
     };
 
-    const isCacheExpired = (timestamp, maxAge) => moment().diff(timestamp, 'minutes') <= maxAge;
+    const isCacheExpired = (timestamp, maxAge) =>
+        moment().diff(timestamp, 'minutes') <= maxAge;
 
     /**
      * Função que retorna o cache, caso o tempo não tenha expirado
@@ -43,9 +45,12 @@ const CacheProvider = ({ children }) => {
      *  maxAgeInMinutes: number,
      * }}
      */
-    const getCacheItem = key => {
+    const getCacheItem = (key) => {
         const cachedData = cache[key];
-        if (cachedData && isCacheExpired(cachedData.timestamp, cachedData.maxAgeInMinutes)) {
+        if (
+            cachedData &&
+            isCacheExpired(cachedData.timestamp, cachedData.maxAgeInMinutes)
+        ) {
             return cachedData;
         }
         return null;

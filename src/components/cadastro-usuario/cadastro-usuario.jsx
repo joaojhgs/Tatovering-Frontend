@@ -9,6 +9,7 @@ import EstudioController from '../../structures/controllers/EstudiosController';
 import TatuadoresController from '../../structures/controllers/TatuadoresController';
 import UsuarioController from '../../structures/controllers/UsuariosController';
 import Usuario from '../../utils/usuario';
+import ModalSignIn from '../auth/ModalSignIn';
 import CadastroStep1 from './steps/cadastroStep1';
 import CadastroStep2 from './steps/cadastroStep2';
 import CadastroStep3 from './steps/cadastroStep3';
@@ -28,10 +29,12 @@ export default function CadastroUsuario() {
 
     const [tatuadorData, setTatuadorData] = useState(null);
     const [estudioData, setEstudioData] = useState(null);
+    const [showLogin, setShowLogin] = useState(false);
 
     const [createUsuario, loadingUsuario, errorUsuario] = useRequest(
         UsuarioController.createUsuario,
     );
+    const [getUser] = useRequest(UsuarioController.getUserById);
     const [createTatuador, loadingTatuador, errorTatuador] = useRequest(
         TatuadoresController.createTatuador,
     );
@@ -87,25 +90,34 @@ export default function CadastroUsuario() {
     };
 
     const handleStep5Submit = (values) => {
-        createUsuario(userData).then((user) => {
-            createEstudio({
-                ...estudioData,
-                ...values,
-                proprietario_id: userId,
-                taxa_agendamento: 0,
-            }).then((estudio) => {
-                createTatuador({
-                    estudio_id: estudio.id,
-                    usuario_id: userId,
-                    ...tatuadorData,
+        createUsuario(userData)
+            .then((user) => {
+                createEstudio({
+                    ...estudioData,
+                    ...values,
+                    proprietario_id: userId,
+                    taxa_agendamento: 0,
                 })
-                    .then((resp) => {
-                        console.log(resp);
-                        navigate('/');
+                    .then((estudio) => {
+                        createTatuador({
+                            estudio_id: estudio.id,
+                            usuario_id: userId,
+                            ...tatuadorData,
+                        })
+                            .then((resp) => {
+                                console.log(resp);
+                                navigate('/');
+                            })
+                            .catch(Promise.reject);
                     })
-                    .catch((err) => {});
+                    .catch(Promise.reject);
+            })
+            .catch((e) => {
+                const msg = e?.response?.data?.error;
+                if (msg && msg.includes('PGRST301')) {
+                    setShowLogin(true);
+                }
             });
-        });
     };
 
     const stepsItems = [
@@ -141,6 +153,20 @@ export default function CadastroUsuario() {
             }}
             className={`fixed left-0 top-0 z-[999] flex h-screen w-screen flex-col items-center justify-center px-6`}
         >
+            <ModalSignIn
+                open={showLogin}
+                onSignIn={() => {
+                    getUser({ id: Usuario.getUsuario().sub }).then((user) => {
+                        console.log('USER:', user);
+                        if (user) {
+                            navigate('/');
+                        } else {
+                            navigate('/cadastro-usuario');
+                        }
+                    });
+                    setShowLogin(false);
+                }}
+            />
             {success ? (
                 <Result
                     status="success"

@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 import axios from '../../utils/axios-config';
 
 export default class UsuarioController {
@@ -22,6 +24,28 @@ export default class UsuarioController {
                 .then((response) => {
                     const users = response.data;
                     resolve(users[0] || null);
+                })
+                .catch(reject);
+        });
+
+    static signIn = ({ email, password }) =>
+        new Promise((resolve, reject) => {
+            Axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/signin`,
+                {
+                    email,
+                    password,
+                },
+                {
+                    withCredentials: false,
+                },
+            )
+                .then(({ data }) => {
+                    localStorage.setItem(
+                        'token',
+                        data.user_token || data.user.access_token,
+                    );
+                    resolve(data);
                 })
                 .catch(reject);
         });
