@@ -1,11 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { Button, Card } from 'antd';
 import { Route, Routes } from 'react-router-dom';
 
 import Dashboard from '../components/dashboard/dashboard';
 import DashboardLayout from '../components/dashboard/layout/dashboardLayout';
-import PageLayout from '../components/dashboard/layout/pageLayout';
+import TatuagensFavoritas from '../components/tatuagens/Tatuagens';
 import useRequest from '../hooks/useRequest';
 import UsuarioController from '../structures/controllers/UsuariosController';
 import Usuario from '../utils/usuario';
@@ -34,7 +33,11 @@ export default function DashboardPage() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/schedule" element={<div>Agendamentos</div>} />
-                    <Route path="/tattoos" element={<div>Tatuagens</div>} />
+                    <Route
+                        path="/favorites"
+                        element={<TatuagensFavoritas id={loggedUser.id} />}
+                    />
+                    <Route path="/tattoos" element={<div>tatuagens</div>} />
                     <Route path="/profile" element={<div>Perfil</div>} />
                 </Routes>
             </DashboardLayout>
