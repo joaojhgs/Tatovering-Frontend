@@ -426,7 +426,7 @@ MapBoxMap.defaultProps = {
     children: <></>,
     height: '500px',
     style: {},
-    zoom: 11,
+    zoom: 14,
     initalValues: {},
     markers: [],
     lines: [],

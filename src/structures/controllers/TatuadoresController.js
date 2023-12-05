@@ -8,4 +8,12 @@ export default class TatuadoresController {
                 .then(({ data }) => resolve(data))
                 .catch(reject);
         });
+
+    static getTatuadoresByEstudioId = ({ estudioId }) =>
+        new Promise((resolve, reject) => {
+            axios
+                .get(`/tatuadores/estudios/${estudioId}`)
+                .then(({ data }) => resolve(data?.tatuadores || []))
+                .catch(reject);
+        });
 }

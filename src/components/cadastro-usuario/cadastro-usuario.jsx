@@ -21,7 +21,7 @@ export default function CadastroUsuario() {
 
     const navigate = useNavigate();
 
-    const userId = Usuario.getUsuario().sub;
+    const userId = Usuario?.getUsuario()?.sub;
 
     const [currentStep, setCurrentStep] = useState(0);
     const [userData, setUserData] = useState(null);
