@@ -53,4 +53,60 @@ export default class EstudioController {
         new Promise((resolve, reject) => {
             axios.post('/estudios', values).then(resolve).catch(reject);
         });
+
+    /**
+     * @param {{
+     *  estudioID: string
+     * }}
+     * @returns {Promise<{
+     *  id: string ,
+     *  nome: string ,
+     *  email: string ,
+     *  taxa_agendamento: float64,
+     *  localizacao: string ,
+     *  telefone: string ,
+     *  descricao: string ,
+     *  endereco: string ,
+     *  imagemPerfil: string ,
+     *  imagemCapa: string ,
+     *  proprietarioId: string ,
+     *  horario_de_funcionamento: {
+     *  	segunda: string[],
+     *  	terca: string[],
+     *  	quarta: string[],
+     *  	quinta: string[],
+     *  	xexta: string[],
+     *  	xabado: string[],
+     *  	domingo: string[],
+     *  },
+     * dias_funcionamento: {
+     *  	segunda: boolean,
+     *  	terca: boolean,
+     *  	quarta: boolean,
+     *  	quinta: boolean,
+     *  	sexta: boolean,
+     *  	sabado: boolean,
+     *  	domingo: boolean,
+     *  }
+     * }>}
+     */
+    static getEstudioById = ({ estudioId }) =>
+        new Promise((resolve, reject) => {
+            axios
+                .get(`/estudios/${estudioId}`)
+                .then(({ data: estudio }) => {
+                    const parsedCoords = estudio.localizacao
+                        .slice(1, -1)
+                        .split(',');
+                    const parsedData = {
+                        ...estudio,
+                        localizacao: {
+                            latitude: parsedCoords[0],
+                            longitude: parsedCoords[1],
+                        },
+                    };
+                    resolve(parsedData);
+                })
+                .catch(reject);
+        });
 }
