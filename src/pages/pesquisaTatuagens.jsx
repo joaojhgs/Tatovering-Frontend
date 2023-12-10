@@ -30,48 +30,13 @@ export default function PesquisaTatuagens() {
     const [filtroCor, setColorFilter] = useState('Cor');
 
     const [tatuagens, setTatuagens] = useState([]);
-    const [tatuadores, setTatuadores] = useState([]);
     const [nomeTatuador, setNomeTatuador] = useState('');
 
     const [form] = useForm();
 
-    /* Routas da API */
-    const getTatuadores = () => {
-        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuadores`).then((e) => {
-            setTatuadores(e.data);
-        });
-    };
-
     const getTatuagens = () => {
-        if (nomeTatuador !== '') {
-            tatuadores.forEach((tatuador) => {
-                if (tatuador.nome.indexOf(nomeTatuador)) {
-                    axios
-                        .get(
-                            `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/tatuador/${tatuador.id}`,
-                        )
-                        .then((e) => {
-                            setTatuagens(e.data.tatuagens);
-                        });
-                }
-            });
-        } else {
-            axios
-                .get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`)
-                .then((e) => {
-                    setTatuagens(e.data);
-                });
-        }
-    };
-
-    /* Funções Locais */
-    const buscaTatuadorPeloNome = () => {
-        const tatuadoresEncontrados = [];
-
-        tatuadores.forEach((tatuador) => {
-            if (tatuador.nome.indexOf(nomeTatuador)) {
-                tatuadoresEncontrados.push(tatuador);
-            }
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
+            setTatuagens(e.data);
         });
     };
 
@@ -101,19 +66,18 @@ export default function PesquisaTatuagens() {
     const handleChangeCor = (value) => setColorFilter(value);
     const handleChangeEstilo = (value) => setFiltroEstilo(value);
 
-    const mudaEstadoDeFavorito = (e) => {
-        // falta adicionar a busca o id da tatuagem clicada dinamicamente
-        const tatuagemId = 'c5825129-a0ac-4164-96a7-68faf365340e';
-
+    const mudaEstadoDeFavorito = (tatuagemId) => {
         if (tatuagensFavoritas.includes(tatuagemId)) {
-            // requisição retornando error EOF
-            // axios.delete(
-            //     `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
-            //     {
-            //         usuario_id: loggedUser.id,
-            //         tatuagem_id: tatuagemId,
-            //     },
-            // );
+            axios
+                .delete(
+                    `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
+                    {
+                        usuario_id: loggedUser.id,
+                        tatuagem_id: tatuagemId,
+                    },
+                )
+                .then((response) => console.log('RESPONSE DELETE: ' + response))
+                .catch((error) => console.log('ERROR DO DELETE: ') + error);
         } else {
             axios
                 .post(
@@ -123,10 +87,7 @@ export default function PesquisaTatuagens() {
                         tatuagem_id: tatuagemId,
                     },
                 )
-                .finally((e) => {
-                    console.log('FINALY FAVORITOS');
-                    console.log(e);
-                });
+                .finally(() => {});
         }
         getFavoritos();
         getTatuagens();
@@ -136,31 +97,25 @@ export default function PesquisaTatuagens() {
         if (tatuagensFavoritas.includes(item.id))
             return (
                 <HeartFilled
-                    key={item.id}
-                    indexador={item.id}
                     className="text-lg text-red-500"
-                    onClick={mudaEstadoDeFavorito}
+                    onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
         else
             return (
                 <HeartOutlined
-                    key={item.id}
-                    indexador={item.id}
                     className="text-lg"
-                    onClick={(e) => mudaEstadoDeFavorito(e)}
+                    onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
     };
 
     useEffect(() => {
         getTatuagens();
-        getTatuadores();
         getFavoritos();
     }, []);
 
     useEffect(() => {
-        buscaTatuadorPeloNome();
         getTatuagens();
     }, [nomeTatuador]);
 
@@ -216,11 +171,11 @@ export default function PesquisaTatuagens() {
                                 <Card
                                     hoverable
                                     key={index}
-                                    className="rounded-xl shadow-md shadow-gray-300"
+                                    className="rounded-xl"
                                     style={{ width: 260, height: 460 }}
                                     cover={
                                         <Image
-                                            height={320}
+                                            height={360}
                                             alt="example"
                                             src={item.imagem}
                                         />
