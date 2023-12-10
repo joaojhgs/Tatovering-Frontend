@@ -8,46 +8,37 @@ import axios from 'axios';
 
 import Usuario from '../utils/usuario';
 
-const optionsColors = [
-    { value: 'aquarela', label: 'Aquarela' },
-    {
-        value: 'preto e branco com detalhe verde',
-        label: 'Com Detalhe',
-    },
-    {
-        value: 'preto e branco',
-        label: 'Preto e Branco',
-    },
-];
-
-const optionsEstilos = [
-    { value: 'escrita', label: 'Escrita' },
-    { value: 'Realismo', label: 'Realismo' },
-];
-
 export default function PesquisaTatuagens() {
-    const [filtroEstilo, setFiltroEstilo] = useState('Estilo');
     const [filtroCor, setColorFilter] = useState('Cor');
+    const [filtroEstilo, setFiltroEstilo] = useState('Estilo');
+    const [optionsEstilos, setOptionsEstilos] = useState([]);
+    const [optionsCores, setOptionsCoress] = useState([]);
 
     const [tatuagens, setTatuagens] = useState([]);
-    const [nomeTatuador, setNomeTatuador] = useState('');
+    const [tatuagensFavoritas, setTatuagensFavoritas] = useState([]);
 
+    const loggedUser = Usuario.getUsuario();
     const [form] = useForm();
+
+    const handleChangeCor = (value) => setColorFilter(value);
+    const handleChangeEstilo = (value) => setFiltroEstilo(value);
 
     const getTatuagens = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
             setTatuagens(e.data);
+            const estilos = [];
+            const cores = [];
+            e.data.forEach((tatuagem) => {
+                estilos.push({
+                    value: tatuagem.estilo,
+                    label: tatuagem.estilo,
+                });
+                cores.push({ value: tatuagem.cor, label: tatuagem.cor });
+            });
+            setOptionsEstilos(estilos);
+            setOptionsCoress(cores);
         });
     };
-
-    const limparFiltros = () => {
-        form.resetFields();
-        setColorFilter('Cor');
-        setFiltroEstilo('Estilo');
-        setNomeTatuador('');
-    };
-    const [tatuagensFavoritas, setTatuagensFavoritas] = useState([]);
-    const loggedUser = Usuario.getUsuario();
 
     const getFavoritos = () => {
         axios
@@ -63,8 +54,11 @@ export default function PesquisaTatuagens() {
             });
     };
 
-    const handleChangeCor = (value) => setColorFilter(value);
-    const handleChangeEstilo = (value) => setFiltroEstilo(value);
+    const limparFiltros = () => {
+        form.resetFields();
+        setColorFilter('Cor');
+        setFiltroEstilo('Estilo');
+    };
 
     const mudaEstadoDeFavorito = (tatuagemId) => {
         if (tatuagensFavoritas.includes(tatuagemId)) {
@@ -98,27 +92,23 @@ export default function PesquisaTatuagens() {
         if (tatuagensFavoritas.includes(item.id))
             return (
                 <HeartFilled
-                    className="text-lg text-red-500"
+                    className="text-xl text-red-500"
                     onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
         else
             return (
                 <HeartOutlined
-                    className="text-lg"
+                    className="text-xl"
                     onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
     };
 
     useEffect(() => {
-        getTatuagens();
         getFavoritos();
-    }, []);
-
-    useEffect(() => {
         getTatuagens();
-    }, [nomeTatuador]);
+    }, []);
 
     return (
         <div
@@ -148,7 +138,7 @@ export default function PesquisaTatuagens() {
                             className="h-10 rounded-xl "
                             style={{ width: 120 }}
                             onChange={handleChangeCor}
-                            options={optionsColors}
+                            options={optionsCores}
                         />
                     </Form.Item>
 
@@ -163,10 +153,10 @@ export default function PesquisaTatuagens() {
                 </Space>
 
                 <Row className="flex h-[80vh] w-full flex-row gap-5 overflow-y-scroll ">
-                    {tatuagens.map((item, index) => {
+                    {tatuagens.map((tatuagem, index) => {
                         if (
-                            filtroCor === item.cor ||
-                            filtroEstilo === item.estilo
+                            filtroCor === tatuagem.cor ||
+                            filtroEstilo === tatuagem.estilo
                         )
                             return (
                                 <Card
@@ -178,16 +168,16 @@ export default function PesquisaTatuagens() {
                                         <Image
                                             height={360}
                                             alt="example"
-                                            src={item.imagem}
+                                            src={tatuagem.imagem}
                                         />
                                     }
                                 >
                                     <Row className="justify-between">
                                         <Meta
-                                            title={item.estilo}
-                                            description={'R$ ' + item.preco}
+                                            title={tatuagem.estilo}
+                                            description={'R$ ' + tatuagem.preco}
                                         />
-                                        <p>{defineIcon(item, index)}</p>
+                                        <p>{defineIcon(tatuagem, index)}</p>
                                     </Row>
                                 </Card>
                             );
@@ -202,16 +192,16 @@ export default function PesquisaTatuagens() {
                                         <Image
                                             height={360}
                                             alt="example"
-                                            src={item.imagem}
+                                            src={tatuagem.imagem}
                                         />
                                     }
                                 >
                                     <Row className="justify-between">
                                         <Meta
-                                            title={item.estilo}
-                                            description={'R$ ' + item.preco}
+                                            title={tatuagem.estilo}
+                                            description={'R$ ' + tatuagem.preco}
                                         />
-                                        <p>{defineIcon(item, index)}</p>
+                                        <p>{defineIcon(tatuagem, index)}</p>
                                     </Row>
                                 </Card>
                             );

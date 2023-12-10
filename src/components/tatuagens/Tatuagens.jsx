@@ -10,19 +10,17 @@ import Usuario from '../../utils/usuario';
 import ModalCadastrarTatuagem from './ModalCadastrarTatuagems';
 
 const { Meta } = Card;
+
 export default function Tatuagens({ id }) {
     const [tatuagens, setTatuagens] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [tatuagensFavoritas, setTatuagensFavoritas] = useState([]);
     const [getUser] = useRequest(UsuarioController.getUserById);
+    const loggedUser = Usuario.getUsuario();
 
     const showModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const handleCancel = () => setIsModalOpen(false);
-
-    function excluirTatuagem(e) {
-        console.log('EXCLUIR TATUAGEM');
-    }
 
     const getTatuagens = () => {
         getUser({ id: id })
@@ -33,45 +31,38 @@ export default function Tatuagens({ id }) {
                     )
                     .then((e) => {
                         setTatuagens(e.data.tatuagens);
-                        console.log(e.data.tatuagens);
                     });
             })
             .catch((e) => {});
     };
-    const [tatuagensFavoritas, setTatuagensFavoritas] = useState([]);
-    const loggedUser = Usuario.getUsuario();
 
     const getFavoritos = () => {
-        console.log('BUSCANDO FAVORITOS');
-        try {
-            axios
-                .get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos/${loggedUser.id}`,
-                )
-                .then((e) => {
-                    const newItems = [];
-                    e.data.forEach((item) => {
-                        newItems.push(item.id);
-                    });
-                    setTatuagensFavoritas(newItems);
+        axios
+            .get(
+                `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos/${loggedUser.id}`,
+            )
+            .then((e) => {
+                const newItems = [];
+                e.data.forEach((item) => {
+                    newItems.push(item.id);
                 });
-        } catch (error) {
-            console.log('ERRO AO BUSCAR FAVORITOS');
-        }
+                setTatuagensFavoritas(newItems);
+            });
     };
 
     const mudaEstadoDeFavorito = (tatuagemId) => {
         if (tatuagensFavoritas.includes(tatuagemId)) {
+            const params = {
+                usuario_id: loggedUser.id,
+                tatuagem_id: tatuagemId,
+            };
             axios
                 .delete(
                     `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
-                    {
-                        usuario_id: loggedUser.id,
-                        tatuagem_id: tatuagemId,
-                    },
+                    { params },
                 )
-                .then((response) => console.log('RESPONSE DELETE: ' + response))
-                .catch((error) => console.log('ERROR DO DELETE: ') + error);
+                .then(() => {})
+                .catch();
         } else {
             axios
                 .post(
@@ -91,14 +82,14 @@ export default function Tatuagens({ id }) {
         if (tatuagensFavoritas.includes(item.id))
             return (
                 <HeartFilled
-                    className="text-lg text-red-500"
+                    className="text-xl text-red-500"
                     onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
         else
             return (
                 <HeartOutlined
-                    className="text-lg"
+                    className="text-xl"
                     onClick={() => mudaEstadoDeFavorito(item.id)}
                 />
             );
@@ -145,7 +136,10 @@ export default function Tatuagens({ id }) {
                                     />
                                 }
                             >
-                                <Row className="justify-between">
+                                <Row
+                                    gutter={(24, 24)}
+                                    className="justify-between"
+                                >
                                     <Meta
                                         title={tatuagem.estilo}
                                         description={'R$ ' + tatuagem.preco}
