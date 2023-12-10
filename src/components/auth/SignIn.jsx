@@ -14,7 +14,7 @@ const SignIn = () => {
     const [getUser] = useRequest(UsuarioController.getUserById);
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
         axios
             .post(
                 `${process.env.NEXT_PUBLIC_API_URL}/signin`,

@@ -4,7 +4,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import Dashboard from '../components/dashboard/dashboard';
 import DashboardLayout from '../components/dashboard/layout/dashboardLayout';
-import TatuagensFavoritas from '../components/tatuagens/Tatuagens';
+import TatuagensFavoritas from '../components/tatuagens-favoritas/TatuagensFavoritas';
+import Tatuagens from '../components/tatuagens/Tatuagens';
 import useRequest from '../hooks/useRequest';
 import UsuarioController from '../structures/controllers/UsuariosController';
 import Usuario from '../utils/usuario';
@@ -37,7 +38,10 @@ export default function DashboardPage() {
                         path="/favorites"
                         element={<TatuagensFavoritas id={loggedUser.id} />}
                     />
-                    <Route path="/tattoos" element={<div>tatuagens</div>} />
+                    <Route
+                        path="/tattoos"
+                        element={<Tatuagens id={loggedUser.id} />}
+                    />
                     <Route path="/profile" element={<div>Perfil</div>} />
                 </Routes>
             </DashboardLayout>

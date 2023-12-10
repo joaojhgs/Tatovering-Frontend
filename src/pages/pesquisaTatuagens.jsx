@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Form, Image, Input, Select, Space } from 'antd';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Image, Row, Select, Space } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { useForm } from 'antd/lib/form/Form';
 import axios from 'axios';
+
+import Usuario from '../utils/usuario';
 
 const optionsColors = [
     { value: 'aquarela', label: 'Aquarela' },
@@ -78,13 +81,82 @@ export default function PesquisaTatuagens() {
         setFiltroEstilo('Estilo');
         setNomeTatuador('');
     };
+    const [tatuagensFavoritas, setTatuagensFavoritas] = useState([]);
+    const loggedUser = Usuario.getUsuario();
+
+    const getFavoritos = () => {
+        axios
+            .get(
+                `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos/${loggedUser.id}`,
+            )
+            .then((e) => {
+                const newItems = [];
+                e.data.forEach((item) => {
+                    newItems.push(item.id);
+                });
+                setTatuagensFavoritas(newItems);
+            });
+    };
 
     const handleChangeCor = (value) => setColorFilter(value);
     const handleChangeEstilo = (value) => setFiltroEstilo(value);
 
+    const mudaEstadoDeFavorito = (e) => {
+        // falta adicionar a busca o id da tatuagem clicada dinamicamente
+        const tatuagemId = 'c5825129-a0ac-4164-96a7-68faf365340e';
+
+        if (tatuagensFavoritas.includes(tatuagemId)) {
+            // requisição retornando error EOF
+            // axios.delete(
+            //     `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
+            //     {
+            //         usuario_id: loggedUser.id,
+            //         tatuagem_id: tatuagemId,
+            //     },
+            // );
+        } else {
+            axios
+                .post(
+                    `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritar`,
+                    {
+                        usuario_id: loggedUser.id,
+                        tatuagem_id: tatuagemId,
+                    },
+                )
+                .finally((e) => {
+                    console.log('FINALY FAVORITOS');
+                    console.log(e);
+                });
+        }
+        getFavoritos();
+        getTatuagens();
+    };
+
+    const defineIcon = (item) => {
+        if (tatuagensFavoritas.includes(item.id))
+            return (
+                <HeartFilled
+                    key={item.id}
+                    indexador={item.id}
+                    className="text-lg text-red-500"
+                    onClick={mudaEstadoDeFavorito}
+                />
+            );
+        else
+            return (
+                <HeartOutlined
+                    key={item.id}
+                    indexador={item.id}
+                    className="text-lg"
+                    onClick={(e) => mudaEstadoDeFavorito(e)}
+                />
+            );
+    };
+
     useEffect(() => {
         getTatuagens();
         getTatuadores();
+        getFavoritos();
     }, []);
 
     useEffect(() => {
@@ -105,16 +177,6 @@ export default function PesquisaTatuagens() {
                 className="flex w-3/4 flex-col items-start justify-center gap-4"
             >
                 <Space>
-                    <Form.Item name="search-field">
-                        <Input
-                            placeholder="Pesquisar tatuador"
-                            className="h-10 rounded-s"
-                            defaultValue={''}
-                            onChange={(value) =>
-                                setNomeTatuador(value.target.value)
-                            }
-                        />
-                    </Form.Item>
                     <Form.Item name="style-field">
                         <Select
                             placeholder="Estilo"
@@ -144,7 +206,7 @@ export default function PesquisaTatuagens() {
                     </Form.Item>
                 </Space>
 
-                <div className="flex w-full flex-row gap-5">
+                <Row className="flex h-[80vh] w-full flex-row gap-5 overflow-y-scroll ">
                     {tatuagens.map((item, index) => {
                         if (
                             filtroCor === item.cor ||
@@ -154,20 +216,23 @@ export default function PesquisaTatuagens() {
                                 <Card
                                     hoverable
                                     key={index}
-                                    className="rounded-xl"
-                                    style={{ width: 260 }}
+                                    className="rounded-xl shadow-md shadow-gray-300"
+                                    style={{ width: 260, height: 460 }}
                                     cover={
                                         <Image
-                                            height={360}
+                                            height={320}
                                             alt="example"
                                             src={item.imagem}
                                         />
                                     }
                                 >
-                                    <Meta
-                                        title={item.estilo}
-                                        description={'R$ ' + item.preco}
-                                    />
+                                    <Row className="justify-between">
+                                        <Meta
+                                            title={item.estilo}
+                                            description={'R$ ' + item.preco}
+                                        />
+                                        <p>{defineIcon(item, index)}</p>
+                                    </Row>
                                 </Card>
                             );
                         else if (filtroCor == 'Cor' && filtroEstilo == 'Estilo')
@@ -176,7 +241,7 @@ export default function PesquisaTatuagens() {
                                     hoverable
                                     key={index}
                                     className="rounded-xl"
-                                    style={{ width: 260 }}
+                                    style={{ width: 260, height: 460 }}
                                     cover={
                                         <Image
                                             height={360}
@@ -185,14 +250,17 @@ export default function PesquisaTatuagens() {
                                         />
                                     }
                                 >
-                                    <Meta
-                                        title={item.estilo}
-                                        description={'R$ ' + item.preco}
-                                    />
+                                    <Row className="justify-between">
+                                        <Meta
+                                            title={item.estilo}
+                                            description={'R$ ' + item.preco}
+                                        />
+                                        <p>{defineIcon(item, index)}</p>
+                                    </Row>
                                 </Card>
                             );
                     })}
-                </div>
+                </Row>
             </Form>
         </div>
     );

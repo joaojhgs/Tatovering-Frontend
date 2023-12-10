@@ -8,6 +8,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { Button, theme } from 'antd';
+import { FaHeart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 
 import logo from '../../../assets/rawLogo.png';
@@ -50,6 +51,12 @@ export default function DashboardLayout({ children }) {
             title: 'Perfil',
             path: 'profile',
         },
+        {
+            key: 'favorites',
+            icon: <FaHeart />,
+            title: 'Favoritas',
+            path: 'favorites',
+        },
     ];
 
     const userMenus = [
@@ -64,6 +71,12 @@ export default function DashboardLayout({ children }) {
             icon: <ProfileOutlined />,
             title: 'Perfil',
             path: 'profile',
+        },
+        {
+            key: 'favorites',
+            icon: <FaHeart />,
+            title: 'Favoritas',
+            path: 'favorites',
         },
     ];
 
@@ -98,10 +111,11 @@ export default function DashboardLayout({ children }) {
                 }}
             >
                 <img
+                    onClick={() => navigate('/')}
                     src={logo}
                     alt="logo"
                     width={90}
-                    style={{ transform: 'translateY(-2px)' }}
+                    style={{ transform: 'translateY(-2px)', cursor: 'pointer' }}
                 />
                 <span
                     style={{ color: '#fff' }}

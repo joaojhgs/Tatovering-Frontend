@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Empty, Rate, Row } from 'antd';
+import { Button, Col, Empty, Row } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -9,6 +9,8 @@ import CardTatuadores from './CardTatuadores/CardTatuadores';
 import img from './images/img_background.png';
 
 function Estudios({ id }) {
+    const [status, setStatus] = useState('Seguir');
+
     const [tatuadores, setTatuadores] = useState([]);
     const [estudio, setEstudio] = useState();
     const days = [
@@ -29,10 +31,15 @@ function Estudios({ id }) {
         );
     };
 
+    const seguir = () => {
+        const novoEstado = status === 'Seguir' ? 'Seguindo' : 'Seguir';
+        setStatus(novoEstado);
+    };
+
     const renderHorario = (horario) => {
         console.log(horario);
         return (
-            <Row gutter={8} className="text-black text-center">
+            <Row gutter={8} className="text-center text-black">
                 <Col span={24}>
                     <span style={{ opacity: 0.6 }}>Segunda-feira:</span>
                     {horarioSingular(horario?.segunda)}
@@ -74,23 +81,6 @@ function Estudios({ id }) {
                 <ClockCircleOutlined /> Fechado
             </span>
         );
-        if (
-            moment().isBetween(
-                moment(estudio.horario_funcionamento[today][0], 'HH:mm'),
-                moment(estudio.horario_funcionamento[today][1], 'HH:mm'),
-            )
-        ) {
-            return (
-                <span style={{ color: 'green', marginLeft: 8 }}>
-                    <ClockCircleOutlined /> Aberto
-                </span>
-            );
-        }
-        return (
-            <span style={{ color: 'red', marginLeft: 8 }}>
-                <ClockCircleOutlined /> Fechado
-            </span>
-        );
     };
     const getTatuadores = () => {
         axios
@@ -113,7 +103,7 @@ function Estudios({ id }) {
 
     return (
         <div className="h-screen w-screen bg-white">
-            <div className="flex h-1/3 items-end justify-end bg-gray-500 relative">
+            <div className="relative flex h-1/3 items-end justify-end bg-gray-500">
                 <img
                     className="align-center h-full object-cover"
                     src={
@@ -125,14 +115,18 @@ function Estudios({ id }) {
                     alt="imagem"
                     style={{ width: '100%' }}
                 />
-                <Button className="absolute mb-5 mr-16 h-12 w-32 border-none bg-blue-600 text-xl font-bold text-white hover:text-white">
-                    Seguir
+                <Button
+                    onClick={seguir}
+                    type="primary"
+                    className="absolute mb-5 mr-16 h-12 text-xl"
+                >
+                    {status}
                 </Button>
             </div>
 
             <div className="flex w-screen flex-row px-12">
                 <div className="h-1/2 w-1/3 ">
-                    <div className="absolute -left-10 -mt-24 flex flex-col items-center justify-center gap-10 z-40 bg-transparent ">
+                    <div className="absolute -left-10 z-40 -mt-24 flex flex-col items-center justify-center gap-10 bg-transparent ">
                         <img
                             className="h-52 w-52 rounded-full object-cover "
                             src={
