@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Dashboard from '../components/dashboard/dashboard';
 import DashboardLayout from '../components/dashboard/layout/dashboardLayout';
 import Studio from '../components/dashboard/studio';
+import Schedulle from '../components/dashboard/schedulle';
 import useRequest from '../hooks/useRequest';
 import UsuarioController from '../structures/controllers/UsuariosController';
 import Usuario from '../utils/usuario';
@@ -49,7 +50,7 @@ export default function DashboardPage() {
             <DashboardLayout>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="/schedule" element={<div>Agendamentos</div>} />
+                    <Route path="/schedule" element={<Schedulle />} />
                     <Route path="/tattoos" element={<div>Tatuagens</div>} />
                     <Route path="/studio" element={<Studio />} />
                     <Route path="/profile" element={<div>Perfil</div>} />
