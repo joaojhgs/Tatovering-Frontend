@@ -17,7 +17,9 @@ export default function TatuagensFavoritas({ id }) {
             });
     }
 
-    function desfavoritar(e) {}
+    function desfavoritar(item) {
+        console.log(item.id);
+    }
 
     useEffect(() => {
         getFavoritos();
@@ -50,7 +52,7 @@ export default function TatuagensFavoritas({ id }) {
                                     <HeartFilled
                                         id={item.id}
                                         className="text-lg text-red-500"
-                                        onClick={desfavoritar}
+                                        onClick={() => desfavoritar(item)}
                                     />
                                 </p>
                             </Row>

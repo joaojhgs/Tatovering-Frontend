@@ -68,16 +68,17 @@ export default function PesquisaTatuagens() {
 
     const mudaEstadoDeFavorito = (tatuagemId) => {
         if (tatuagensFavoritas.includes(tatuagemId)) {
+            const params = {
+                usuario_id: loggedUser.id,
+                tatuagem_id: tatuagemId,
+            };
             axios
                 .delete(
                     `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
-                    {
-                        usuario_id: loggedUser.id,
-                        tatuagem_id: tatuagemId,
-                    },
+                    { params },
                 )
-                .then((response) => console.log('RESPONSE DELETE: ' + response))
-                .catch((error) => console.log('ERROR DO DELETE: ') + error);
+                .then()
+                .catch();
         } else {
             axios
                 .post(

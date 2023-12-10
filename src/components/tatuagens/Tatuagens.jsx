@@ -59,10 +59,49 @@ export default function Tatuagens({ id }) {
             console.log('ERRO AO BUSCAR FAVORITOS');
         }
     };
+
+    const mudaEstadoDeFavorito = (tatuagemId) => {
+        if (tatuagensFavoritas.includes(tatuagemId)) {
+            axios
+                .delete(
+                    `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos`,
+                    {
+                        usuario_id: loggedUser.id,
+                        tatuagem_id: tatuagemId,
+                    },
+                )
+                .then((response) => console.log('RESPONSE DELETE: ' + response))
+                .catch((error) => console.log('ERROR DO DELETE: ') + error);
+        } else {
+            axios
+                .post(
+                    `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritar`,
+                    {
+                        usuario_id: loggedUser.id,
+                        tatuagem_id: tatuagemId,
+                    },
+                )
+                .finally(() => {});
+        }
+        getFavoritos();
+        getTatuagens();
+    };
+
     const defineIcon = (item) => {
         if (tatuagensFavoritas.includes(item.id))
-            return <HeartFilled className="text-lg text-red-500" />;
-        else return <HeartOutlined className="text-lg" />;
+            return (
+                <HeartFilled
+                    className="text-lg text-red-500"
+                    onClick={() => mudaEstadoDeFavorito(item.id)}
+                />
+            );
+        else
+            return (
+                <HeartOutlined
+                    className="text-lg"
+                    onClick={() => mudaEstadoDeFavorito(item.id)}
+                />
+            );
     };
 
     useEffect(() => {
