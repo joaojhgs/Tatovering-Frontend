@@ -33,16 +33,6 @@ export default function TatuagensFavoritas({ id }) {
         getFavoritos();
     };
 
-    const defineIcon = (tatuagemId) => {
-        return (
-            <HeartFilled
-                id={tatuagemId}
-                className="text-xl text-red-500"
-                onClick={() => desfavoritar(tatuagemId)}
-            />
-        );
-    };
-
     useEffect(() => {
         getFavoritos();
     }, []);
@@ -70,7 +60,12 @@ export default function TatuagensFavoritas({ id }) {
                                     title={tatuagem.estilo}
                                     description={'R$ ' + tatuagem.preco}
                                 />
-                                <p>{() => defineIcon(tatuagem.id)}</p>
+                                <p>
+                                    <HeartFilled
+                                        className="text-xl text-red-500"
+                                        onClick={() => desfavoritar(tatuagem)}
+                                    />
+                                </p>
                             </Row>
                         </Card>
                     ))}
