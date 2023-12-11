@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
@@ -47,7 +46,7 @@ export default function SiteHeader() {
                                     className="mx-2"
                                     onClick={() => {
                                         Usuario.doLogout();
-                                        navigate(0);
+                                        navigate('/auth');
                                     }}
                                 >
                                     Sair

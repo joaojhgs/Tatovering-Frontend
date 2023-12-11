@@ -26,7 +26,7 @@ const SignUp = () => {
             .then((e) => {
                 console.log(e);
                 localStorage.setItem('token', e.data.user_token);
-                navigate('/cadastro-usuario');
+                navigate('/auth');
             });
     };
     return (
