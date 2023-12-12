@@ -9,10 +9,10 @@ export default class AgendamentosController {
                 .catch(reject);
         });
 
-    static getAgendamentos = (tatuador = false) =>
+    static getAgendamentos = (tatuador) =>
         new Promise((resolve, reject) => {
             axios
-                .get(`/agendamentos/${tatuador ? 'tatuador' : ''}`)
+                .get(`/agendamentos${tatuador ? (typeof tatuador === 'string' ? `/tatuador/${tatuador}` : '/tatuador') : ''}`)
                 .then(({ data }) => resolve(data || []))
                 .catch(reject);
         });
