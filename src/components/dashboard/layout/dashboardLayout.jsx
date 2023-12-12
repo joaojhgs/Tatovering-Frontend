@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
             icon: <ClockCircleOutlined />,
             title: 'Agendamentos',
             path: 'schedule',
-            active: isTatuador,
+            active: true,
         },
         {
             key: 'tattoos',

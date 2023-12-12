@@ -62,10 +62,12 @@ export default function Schedulle() {
                             defaultView="week"
                             events={events}
                             style={{ height: "100vh" }}
-                            selectable
                             popup
-                            draggable
-                            resizable
+                            {...{
+                                selectable: !!user?.tatuador_id,
+                                draggable: !!user?.tatuador_id,
+                                resizable: !!user?.tatuador_id
+                            }}
                             timeslots={4}
                             steps={15}
                             onSelectEvent={e => { setServiceDetailsModal(e.servico_id) }} // Click event (show details)
