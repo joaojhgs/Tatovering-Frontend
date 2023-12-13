@@ -4,7 +4,7 @@ export default class TatuadoresController {
     static createTatuador = (values) =>
         new Promise((resolve, reject) => {
             axios
-                .post('/tatuadores', values)
+                .post('/tatuadores', { ...values, estudio_id: '' })
                 .then(({ data }) => resolve(data))
                 .catch(reject);
         });

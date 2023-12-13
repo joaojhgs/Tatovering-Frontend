@@ -16,10 +16,10 @@ const Tatuagens = ({ tatuagens }) => {
                 Temos um banco de dados com mais de 1000 tatuagens classificadas
                 por seus estilos e preços.
             </p>
-            <div className="mx-auto my-2">
-                <EmblaCarousel
-                    options={{ direction: 'ltr' }}
-                    slides={tatuagens.map((e, index) => {
+            <div
+                style={{ maxWidth: '100vw', overflow: 'auto', display: 'flex', gap: 24, paddingBottom: 48 }}
+            >
+                    {tatuagens.map((e, index) => {
                         return (
                             <Card
                                 hoverable
@@ -42,9 +42,8 @@ const Tatuagens = ({ tatuagens }) => {
                             </Card>
                         );
                     })}
-                />
+                </div>
             </div>
-        </div>
     );
 };
 export default Tatuagens;

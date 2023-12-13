@@ -99,9 +99,11 @@ export default function CadastroUsuario() {
                     taxa_agendamento: 0,
                 })
                     .then((estudio) => {
+                        console.log(estudio);
                         createTatuador({
                             estudio_id: estudio.id,
                             usuario_id: userId,
+                            nome: userData.nome,
                             ...tatuadorData,
                         })
                             .then((resp) => {
