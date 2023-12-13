@@ -17,9 +17,10 @@ const Tatuadores = ({ tatuadores }) => {
                 visão!
             </p>
             <div className="mx-auto my-2">
-                <EmblaCarousel
-                    options={{ direction: 'ltr' }}
-                    slides={tatuadores.map((e, index) => {
+                <div
+                    style={{ maxWidth: '100vw', overflow: 'auto' }}
+                >
+                    {tatuadores.map((e, index) => {
                         return (
                             <Card
                                 hoverable
@@ -39,7 +40,7 @@ const Tatuadores = ({ tatuadores }) => {
                             </Card>
                         );
                     })}
-                />
+                </div>
             </div>
         </div>
     );

@@ -51,7 +51,7 @@ export default class EstudioController {
 
     static createEstudio = (values) =>
         new Promise((resolve, reject) => {
-            axios.post('/estudios', values).then(({ data }) => resolve(data)).catch(reject);
+            axios.post('/estudios', values).then(({ data }) => resolve(data[0])).catch(reject);
         });
 
     /**
