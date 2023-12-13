@@ -11,6 +11,7 @@ import TatuadoresController from '../../structures/controllers/TatuadoresControl
 import { formatToCellphone } from '../../utils/formatter';
 import MapBoxMap from '../mapBox/MapBoxMap';
 import PageLayout from './layout/pageLayout';
+import axios from '../../utils/axios-config';
 
 const { useBreakpoint } = Grid;
 
@@ -274,11 +275,11 @@ export default function Studio() {
                         background: '#eee',
                     }}
                 >
-                    {estudio.imagem_capa && !isEditing && (
+                    {!isEditing && (
                         <Image
                             wrapperStyle={{ width: '100%' }}
                             style={{ textAlign: 'center' }}
-                            src={estudio.imagem_capa}
+                            src={estudio?.imagem_capa || 'https://source.unsplash.com/random/1080×620/?tattoo'}
                         />
                     )}
                     {isEditing && (
@@ -349,8 +350,14 @@ export default function Studio() {
         </Row>
     );
 
-    const handleSubmit = () => {
-        
+    const saveEdition = () => {
+        axios.patch(`/estudios/${estudio.id}`, {
+            ...estudio,
+            localizacao: `${estudio.localizacao.latitude},${estudio.localizacao.longitude}`,
+            imagem_capa: uploadedFile,
+        })
+            .then(console.log)
+            .catch(console.log);
     };
 
     return (
@@ -429,10 +436,10 @@ export default function Studio() {
             >
                 <Row gutter={[12, 12]} style={{ justifyContent: 'end' }}>
                     <Col>
-                        <Button>Cancelar</Button>
+                        <Button onClick={() => setIsEditing(prev => !prev)}>Cancelar</Button>
                     </Col>
                     <Col>
-                        <Button type="primary">Salvar</Button>
+                        <Button type="primary" onClick={saveEdition}>Salvar</Button>
                     </Col>
                 </Row>
             </Card>)}
