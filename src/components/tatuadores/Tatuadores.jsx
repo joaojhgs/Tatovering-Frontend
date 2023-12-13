@@ -8,15 +8,19 @@ import EmblaCarousel from '../EmblaCarousel';
 // import CardTatuadores from './CardTatuadores/CardTatuadores';
 import img from './images/img_background.png';
 
+import ScheduleModal from '../schedule-modal/schedule-modal'
+
 function Tatuadores({ id }) {
     const [tatuador, setTatuador] = useState();
     const [tatuagens, setTatuagens] = useState();
+
+    const [schedulleDate, setSchedulleData] = useState(null);
 
     const getTatuagens = () => {
         axios
             .get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens/tatuador/${id}`)
             .then((e) => {
-                console.log(e.data.tatuador[0].imagem_perfil.lenght);
+                console.log(e.data);
                 setTatuagens(e.data.tatuagens);
                 setTatuador(e.data.tatuador[0]);
             });
@@ -35,7 +39,7 @@ function Tatuadores({ id }) {
                     className="align-center h-full object-cover"
                     src={
                         tatuador?.imagem_capa.length &&
-                        tatuador?.imagem_capa.length > 0
+                            tatuador?.imagem_capa.length > 0
                             ? tatuador?.imagem_capa
                             : img
                     }
@@ -54,7 +58,7 @@ function Tatuadores({ id }) {
                             className="h-52 w-52 rounded-full object-cover "
                             src={
                                 tatuador?.imagem_perfil.length &&
-                                tatuador?.imagem_perfil.length > 0
+                                    tatuador?.imagem_perfil.length > 0
                                     ? tatuador?.imagem_perfil
                                     : img
                             }
@@ -101,6 +105,13 @@ function Tatuadores({ id }) {
                                                     src={e.imagem}
                                                 />
                                             }
+                                            onClick={() => {
+                                                setSchedulleData({
+                                                    tatuagem_id: e.id,
+                                                    tatuagem_url: e.imagem,
+                                                    tatuador_id: e.tatuador_id
+                                                })
+                                            }}
                                         >
                                             <Meta
                                                 title={e.estilo}
@@ -116,6 +127,7 @@ function Tatuadores({ id }) {
                     )}
                 </div>
                 <div className="w-1/4"></div>
+                <ScheduleModal data={schedulleDate} setData={setSchedulleData} />
             </div>
         </div>
     );

@@ -17,4 +17,12 @@ export default class AgendamentosController {
                 .catch(reject);
         });
 
+        static getAvailability = (tatuador) =>
+        new Promise((resolve, reject) => {
+            axios
+                .get(`/agendamentos/disponibilidade/${tatuador}`)
+                .then(({ data }) => resolve(data || []))
+                .catch(reject);
+        });
+
 }
