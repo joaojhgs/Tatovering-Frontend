@@ -51,7 +51,7 @@ export default function DashboardPage() {
         <UserContext.Provider value={user}>
             <DashboardLayout>
                 <Routes>
-                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/" element={<Schedulle />} />
                     <Route path="/schedule" element={<Schedulle />} />
                     <Route
                         path="/favorites"
@@ -62,7 +62,7 @@ export default function DashboardPage() {
                         element={<Tatuagens id={loggedUser.id} />}
                     />
                     <Route path="/studio" element={<Studio />} />
-                    <Route path="/profile" element={<div>Perfil</div>} />
+                    {/* <Route path="/profile" element={<div>Perfil</div>} /> */}
                 </Routes>
             </DashboardLayout>
         </UserContext.Provider>

@@ -41,6 +41,7 @@ export default function PesquisaTatuagens() {
     };
 
     const getFavoritos = () => {
+        if(!loggedUser) return; 
         axios
             .get(
                 `${process.env.NEXT_PUBLIC_API_URL}/tatuagens/favoritos/${loggedUser.id}`,

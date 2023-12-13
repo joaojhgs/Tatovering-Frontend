@@ -35,13 +35,13 @@ export default function DashboardLayout({ children }) {
     const colorBase = '#131313';
 
     const menus = [
-        {
-            key: 'dashboard',
-            icon: <HomeOutlined />,
-            title: 'Dashboard',
-            path: '',
-            active: true,
-        },
+        // {
+        //     key: 'dashboard',
+        //     icon: <HomeOutlined />,
+        //     title: 'Dashboard',
+        //     path: '',
+        //     active: true,
+        // },
         {
             key: 'schedule',
             icon: <ClockCircleOutlined />,
@@ -80,12 +80,12 @@ export default function DashboardLayout({ children }) {
     ];
 
     const userMenus = [
-        {
-            key: 'dashboard',
-            icon: <HomeOutlined />,
-            title: 'Dashboard',
-            path: '',
-        },
+        // {
+        //     key: 'dashboard',
+        //     icon: <HomeOutlined />,
+        //     title: 'Dashboard',
+        //     path: '',
+        // },
         {
             key: 'profile',
             icon: <ProfileOutlined />,
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }) {
         },
     ];
 
-    const [currentKey, setCurrentKey] = useState('dashboard');
+    const [currentKey, setCurrentKey] = useState('schedule');
     const [open, setIsOpen] = useState(false);
 
     const renderSideBar = () => (
