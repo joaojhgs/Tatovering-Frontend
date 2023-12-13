@@ -21,18 +21,23 @@ export default function Schedulle() {
     const [serviceDetailsModal, setServiceDetailsModal] = useState(null)
     const [getAgendamentos, loadingAgendamentos, hasErrorAgendamentos] =
         useRequest(AgendamentosController.getAgendamentos);
-    const events = useMemo(() => schedullesAndServices?.agendamento?.map(e => ({ start: new Date(e.data_inicio), end: new Date(e.data_termino), title: e.observacao, servico_id: e.servico_id })) ?? [], [schedullesAndServices])
+    const events = useMemo(() => {
+        if(!!user?.tatuador_id){
+            return schedullesAndServices?.agendamento?.map(e => ({ start: new Date(e.data_inicio), end: new Date(e.data_termino), title: e.observacao, servico_id: e.servico_id })) ?? []
+        }
+        return schedullesAndServices.map(e => ({ start: new Date(e.data_inicio), end: new Date(e.data_termino), title: e.observacao, servico_id: e.servico_id })) ?? []
+    }, [schedullesAndServices, user])
     // Todo: add images
     const ServiceDescriptionComponent = useCallback(() => {
         if (!serviceDetailsModal) return <></>
-        const service = schedullesAndServices.servico.find(e => e.id === serviceDetailsModal)
+        const service = schedullesAndServices.servico?.find(e => e.id === serviceDetailsModal)
         return <Descriptions title="User Info">
-            <Descriptions.Item label="Tipo">{service.tipo}</Descriptions.Item>
-            <Descriptions.Item label="Objetivo">{service.objetivo}</Descriptions.Item>
-            <Descriptions.Item label="Descricao">{service.descricao}</Descriptions.Item>
-            <Descriptions.Item label="Sessões">{service.qtde_sessoes}</Descriptions.Item>
+            <Descriptions.Item label="Tipo">{service?.tipo}</Descriptions.Item>
+            <Descriptions.Item label="Objetivo">{service?.objetivo}</Descriptions.Item>
+            <Descriptions.Item label="Descricao">{service?.descricao}</Descriptions.Item>
+            <Descriptions.Item label="Sessões">{service?.qtde_sessoes}</Descriptions.Item>
             <Descriptions.Item label="Valor">
-                R$ {service.valor}
+                R$ {service?.valor}
             </Descriptions.Item>
         </Descriptions>
     }, [serviceDetailsModal])
