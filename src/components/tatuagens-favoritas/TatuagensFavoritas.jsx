@@ -40,7 +40,7 @@ export default function TatuagensFavoritas({ id }) {
     return (
         <div className="h-[calc(100vh-48px)] p-8">
             <div className="flex h-full flex-wrap gap-10 overflow-y-scroll rounded-lg bg-white p-8 ">
-                <Row className="h-[75vh] justify-start gap-10 overflow-y-scroll px-4 pb-6">
+                <Row className="h-[80vh] justify-start gap-10 overflow-y-scroll px-4 pb-6">
                     {tatuagens.map((tatuagem, index) => (
                         <Card
                             hoverable

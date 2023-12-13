@@ -21,6 +21,7 @@
         "moment": "^2.29.4",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
+        "react-big-calendar": "^1.8.5",
         "react-dom": "^18.2.0",
         "react-icons": "^4.12.0",
         "react-map-gl": "^7.1.6",
