@@ -140,7 +140,7 @@ export default function ModalCadastrarTatuagem({
 
     const registarTatuagem = (values) => {
         axios
-            .post(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens/`, {
+            .post(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`, {
                 imagem: values.desenho,
                 estilo: values.estilo,
                 cor: values.cor,
