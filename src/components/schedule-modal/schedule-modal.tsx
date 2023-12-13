@@ -85,6 +85,7 @@ const DateIntervalComponent: React.FC<DateIntervalProps> = ({ interval, start, e
                 const isConflict = data.agendamentos.some((agendamento) => {
                     const agendamentoStart = moment(agendamento.data_inicio);
                     const agendamentoEnd = moment(agendamento.data_termino);
+                    console.log(agendamentoStart, agendamentoEnd)
 
                     return (
                         (agendamentoStart.isSameOrBefore(intervalStartTime) && agendamentoEnd.isSameOrAfter(intervalStartTime)) ||
@@ -176,11 +177,13 @@ const ScheduleModal = ({
     const [createAgendamento] = useRequest(AgendamentosController.createAgendamento)
     const [unavailableSchedulles, setUnavailableSchedulles] = useState()
     const [step, setStep] = useState(0)
-    const [selectedSchedulledTime, setSelectedSchedulledTime] = useState<any>()
+    const [selectedSchedulledTime, setSelectedSchedulledTime] = useState<moment.Moment>()
 
     useEffect(() => {
         if (selectedSchedulledTime) {
+            console.log('asdas', selectedSchedulledTime.toISOString())
             submit(selectedSchedulledTime, unavailableSchedulles?.estudio.id)
+            setData(null)
         }
     }, [selectedSchedulledTime])
 
@@ -202,6 +205,7 @@ const ScheduleModal = ({
         status: string;
         observacao: string;
         data_inicio: string;
+        data_termino: string;
     }
 
     interface Servico {
@@ -209,12 +213,13 @@ const ScheduleModal = ({
         tatuagem_id: string;
         tatuador_id: string;
         tipo: string;
-        descricao: string;
-        valor?: number;
+        descricao: string | null;
+        valor: number;
         qtde_sessoes: number;
-        imagem_referencia?: string;
-        imagem_referencia2?: string;
-        imagem_referencia3?: string;
+        imagem_referencia: string | null;
+        imagem_referencia2: string | null;
+        objetivo: string;
+        imagem_referencia3: string | null;
     }
 
     interface AgendamentoServico {
@@ -230,17 +235,23 @@ const ScheduleModal = ({
                 tatuador_id: data?.tatuador_id ?? '',
                 estudio_id: estudio_id,
                 data_inicio: time,
+                data_termino: time.add(30, 'minutes'),
                 duracao: 30,
                 status: 'AGENDADO',
                 observacao: ''
             },
             servico: {
-                descricao: '',
+                descricao: null,
                 estudio_id: estudio_id,
-                qtde_sessoes: 1,
                 tatuador_id: data?.tatuador_id ?? '',
-                tatuagem_id: data?.tatuador_id ?? '',
-                tipo: 'SLA',
+                tatuagem_id: data?.tatuagem_id ?? '',
+                qtde_sessoes: 1,
+                tipo: 'PEQUENA',
+                valor: 400,
+                imagem_referencia: null,
+                imagem_referencia2: null,
+                imagem_referencia3: null,
+                objetivo: "SESSAO",
             }
         }
         createAgendamento(params).then(e => { console.log('success') }).catch((e) => console.log(e))
