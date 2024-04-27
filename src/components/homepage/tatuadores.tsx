@@ -4,7 +4,6 @@ import { Tatuador } from '@/utils/interfaces';
 
 import EmblaCarousel from '../EmblaCarousel';
 
-
 const { Meta } = Card;
 
 const Tatuadores = ({ tatuadores }: { tatuadores: Tatuador[] }) => {

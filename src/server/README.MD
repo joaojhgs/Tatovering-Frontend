@@ -1,0 +1,1 @@
+**Every file inside this folder should have the `use server` directive at the top of the file**

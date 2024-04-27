@@ -12,7 +12,7 @@ export default async function RootLayout({
   params: { locale },
 }: {
   children: React.ReactNode;
-  params: Record<string, any>;
+  params: Record<string, string>;
 }) {
   let messages;
   try {

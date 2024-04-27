@@ -40,10 +40,10 @@ export default function CadastroStep2({
               transition: 'background-color 0.3s ease',
               backgroundColor: isTattooist ? '#1890ff' : 'transparent',
             }}
-            className="h-4 w-4 rounded border border-solid border-[#0004]"
+            className="size-4 rounded border border-solid border-[#0004]"
           />
           <div className="ml-6 text-lg font-bold">Sou um(a) Tatuador(a)</div>
-          <div className="relative ml-auto h-24 w-24">
+          <div className="relative ml-auto size-24">
             <Image src={iconeTattoo} alt="" fill />
           </div>
         </div>
@@ -66,12 +66,12 @@ export default function CadastroStep2({
               transition: 'background-color 0.3s ease',
               backgroundColor: isUser ? '#1890ff' : 'transparent',
             }}
-            className="h-4 w-4 rounded border border-solid border-[#0004]"
+            className="size-4 rounded border border-solid border-[#0004]"
           />
           <div className="ml-6 text-lg font-bold">
             Não sou um(a) Tatuador(a)
           </div>
-          <div className="relative ml-auto h-24 w-24">
+          <div className="relative ml-auto size-24">
             <Image src={man} alt="" fill />
           </div>
         </div>

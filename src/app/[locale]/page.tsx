@@ -14,10 +14,7 @@ import Tatuadores from '@/components/homepage/tatuadores';
 import Tatuagens from '@/components/homepage/tatuagens';
 import { Tatuador, Tatuagem } from '@/utils/interfaces';
 
-const { Title } = Typography;
 export default function Page() {
-  const t = useTranslations('site');
-  const [isMounted, setIsMounted] = useState(false);
   const [tatuagens, setTatuagens] = useState<Tatuagem[]>([
     {
       agendamento_id: 0,
@@ -47,7 +44,6 @@ export default function Page() {
     } as Tatuador,
   ]);
   useEffect(() => {
-    setIsMounted(true);
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tatuagens`).then((e) => {
       console.log(e);
       setTatuagens(e.data as Tatuagem[]);

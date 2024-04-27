@@ -1,6 +1,7 @@
 import React from 'react';
-import { Source, Layer } from 'react-map-gl';
+
 import PropTypes from 'prop-types';
+import { Layer, Source } from 'react-map-gl';
 
 /**
  * @author Matheus Fontes
@@ -13,79 +14,71 @@ import PropTypes from 'prop-types';
  */
 
 export default function LineLayer({
-    id,
-    coordinates,
-    lineWidth,
-    lineOpacity,
-    properties,
+  id,
+  coordinates,
+  lineWidth,
+  lineOpacity,
+  properties,
 }) {
+  const layerData = {
+    type: 'FeatureCollection',
+    features: [],
+  };
 
-    const layerData = {
-        type: 'FeatureCollection',
-        features: [],
-    };
+  if (Array.isArray(properties)) {
+    coordinates.forEach((coord, index) => {
+      layerData.features.push({
+        type: 'Feature',
+        properties: properties[index],
+        geometry: {
+          type: 'LineString',
+          coordinates: coord,
+        },
+      });
+    });
+  } else {
+    layerData.features.push({
+      type: 'Feature',
+      properties,
+      geometry: {
+        type: 'LineString',
+        coordinates,
+      },
+    });
+  }
 
-    if (Array.isArray(properties)) {
-        coordinates.forEach((coord, index) => {
-            layerData.features.push(
-                {
-                    type: 'Feature',
-                    properties: properties[index],
-                    geometry: {
-                        type: 'LineString',
-                        coordinates: coord,
-                    },
-                },
-            );
-        });
-    } else {
-        layerData.features.push(
-            {
-                type: 'Feature',
-                properties,
-                geometry: {
-                    type: 'LineString',
-                    coordinates,
-                },
-            },
-        );
-    }
-
-    return (
-        <Source id={id} type="geojson" data={layerData}>
-            <Layer
-                id={id}
-                type="line"
-                sourceId={id}
-                layout={{
-                    'line-join': 'round',
-                    'line-cap': 'round',
-                }}
-                paint={{
-                    'line-color': ['get', 'color'] || '#888',
-                    'line-width': lineWidth,
-                    'line-opacity': lineOpacity,
-                }}
-            />
-        </Source>
-    );
+  return (
+    <Source id={id} type="geojson" data={layerData}>
+      <Layer
+        id={id}
+        type="line"
+        sourceId={id}
+        layout={{
+          'line-join': 'round',
+          'line-cap': 'round',
+        }}
+        paint={{
+          'line-color': ['get', 'color'] || '#888',
+          'line-width': lineWidth,
+          'line-opacity': lineOpacity,
+        }}
+      />
+    </Source>
+  );
 }
 
 LineLayer.defaultProps = {
-    coordinates: [],
-    lineWidth: 8,
-    id: undefined,
-    lineOpacity: 0.5,
-    properties: {},
+  coordinates: [],
+  lineWidth: 8,
+  id: undefined,
+  lineOpacity: 0.5,
+  properties: {},
 };
 
 LineLayer.propTypes = {
-    id: PropTypes.string,
-    coordinates: PropTypes.array,
-    lineWidth: PropTypes.number,
-    lineOpacity: PropTypes.number,
-    properties: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.array,
-    ]),
+  id: PropTypes.string,
+  coordinates: PropTypes.array,
+  lineWidth: PropTypes.number,
+  lineOpacity: PropTypes.number,
+  properties: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };

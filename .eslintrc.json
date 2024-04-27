@@ -1,20 +1,89 @@
 {
   "$schema": "https://json.schemastore.org/eslintrc",
   "root": true,
+  "ignorePatterns": [
+    "node_modules/*",
+    ".next/*",
+    ".out/*",
+    "!.prettierrc",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "public/assets/images/*",
+    ".eslintrc.json"
+  ],
   "extends": [
     "next/core-web-vitals",
     "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:react-hooks/recommended", // React hooks rules
+    "plugin:jsx-a11y/recommended", // Accessibility rules,
+    "plugin:i18n-json/recommended", // Internationalization rules,
+    "plugin:@typescript-eslint/recommended" // TypeScript rules
   ],
-  "plugins": ["prettier", "tailwindcss"],
+  "plugins": [
+    "prettier",
+    "tailwindcss"
+  ],
   "rules": {
-    "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
-    "tailwindcss/no-custom-classname": "off"
+    "tailwindcss/no-custom-classname": "off",
+    "prettier/prettier": "warn",
+    // We will use TypeScript's types for component props instead
+    "react/prop-types": "off",
+    // No need to import React when using Next.js
+    "react/react-in-jsx-scope": "off",
+    // This rule is not compatible with Next.js's <Link /> components
+    "jsx-a11y/anchor-is-valid": "off",
+    //
+    "@typescript-eslint/no-namespace": "off",
+    // Doesn't accept the any type
+    "@typescript-eslint/no-explicit-any": "error",
+    // Why would you want unused vars?
+    "@typescript-eslint/no-unused-vars": "error",
+    // Required to work with i18n next plugin
+    "@typescript-eslint/no-var-requires": "off",
+    // We need use unescaped entities without warning
+    "react/no-unescaped-entities": "off",
+    // We have Head component from Next.js
+    "@next/next/no-head-element": "warn",
+    // We have Image component from Next.js that improves the performance
+    "@next/next/no-img-element": "warn",
+    // Titles should be defined at the page-level using the <Head> component from Next.js
+    "@next/next/no-title-in-document-head": "warn",
+    // All images should have an alt attribute
+    "jsx-a11y/alt-text": "warn",
+    // Enforce heading (h1, h2, etc) elements contain accessible content.
+    "jsx-a11y/heading-has-content": "warn",
+    // Enforce iframe elements have a title attribute.
+    "jsx-a11y/iframe-has-title": "warn",
+    // Enforce <img> alt prop does not contain the word "image", "picture", or "photo".
+    "jsx-a11y/img-redundant-alt": "warn",
+    // Enforce syntax naming
+    "i18n-json/valid-message-syntax": [
+      2,
+      {
+        "syntax": "icu"
+      }
+    ],
+    // Enforce valid JSON
+    "i18n-json/valid-json": 2,
+    // Sort translation file keys
+    "i18n-json/sorted-keys": [
+      2,
+      {
+        "order": "asc",
+        "indentSpaces": 2
+      }
+    ],
+    // Enforce no conflicting keys
+    "i18n-json/identical-keys": 0
   },
   "settings": {
     "tailwindcss": {
-      "callees": ["cn"]
+      "callees": [
+        "cn"
+      ]
     }
   }
 }

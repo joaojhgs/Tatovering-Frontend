@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
+import { ClockCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Empty, Rate, Row } from 'antd';
 import axios from 'axios';
+import moment from 'moment';
 
 import { Estudio } from '@/structures/interfaces/Estudio';
 import { Tatuador } from '@/utils/interfaces';
@@ -13,8 +15,6 @@ import { Tatuador } from '@/utils/interfaces';
 import CardTatuadores from './CardTatuadores/CardTatuadores';
 import img from './images/img_background.png';
 import imgProfile from './images/img_profile.jpeg';
-import { ClockCircleOutlined } from '@ant-design/icons';
-import moment from 'moment';
 
 function Estudios({ id }: { id: string }) {
   const [tatuadores, setTatuadores] = useState<Tatuador[]>([]);
@@ -40,7 +40,7 @@ function Estudios({ id }: { id: string }) {
   const renderHorario = (horario: any) => {
     console.log(horario);
     return (
-      <Row gutter={8} className='text-black text-center'>
+      <Row gutter={8} className="text-center text-black">
         <Col span={24}>
           <span style={{ opacity: 0.6 }}>Segunda-feira:</span>
           {horarioSingular(horario?.segunda)}
@@ -113,13 +113,14 @@ function Estudios({ id }: { id: string }) {
   };
   const getTatuadores = () => {
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/tatuadores/estudios/${id}`,
-      )
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/tatuadores/estudios/${id}`)
       .then((e) => {
-        console.log(e.data.estudio[0].imagem_perfil, e.data.estudio[0].imagem_capa)
+        console.log(
+          e.data.estudio[0].imagem_perfil,
+          e.data.estudio[0].imagem_capa,
+        );
         setTatuadores(e.data.tatuadores as Tatuador[]);
-        setEstudio(e.data.estudio[0])
+        setEstudio(e.data.estudio[0]);
       });
   };
 
@@ -131,10 +132,14 @@ function Estudios({ id }: { id: string }) {
 
   return (
     <div className="h-screen w-screen bg-white">
-      <div className="flex h-1/3 items-end justify-end bg-gray-500 relative">
+      <div className="relative flex h-1/3 items-end justify-end bg-gray-500">
         <Image
           className="align-center h-full object-cover"
-          src={(estudio?.imagem_capa.length && estudio?.imagem_capa.length > 0) ? estudio?.imagem_capa : img}
+          src={
+            estudio?.imagem_capa.length && estudio?.imagem_capa.length > 0
+              ? estudio?.imagem_capa
+              : img
+          }
           alt="imagem"
           fill
         />
@@ -145,14 +150,18 @@ function Estudios({ id }: { id: string }) {
 
       <div className="flex w-screen flex-row px-12">
         <div className="h-1/2 w-1/3 ">
-          <div className="absolute -left-10 -mt-24 flex flex-col items-center justify-center gap-10 z-40 bg-transparent ">
+          <div className="absolute -left-10 z-40 -mt-24 flex flex-col items-center justify-center gap-10 bg-transparent ">
             <Image
-              className="h-52 w-52 rounded-full object-cover "
-              src={(estudio?.imagem_perfil.length && estudio?.imagem_perfil.length > 0) ? estudio?.imagem_perfil : img}
+              className="size-52 rounded-full object-cover "
+              src={
+                estudio?.imagem_perfil.length &&
+                estudio?.imagem_perfil.length > 0
+                  ? estudio?.imagem_perfil
+                  : img
+              }
               alt="imagem"
               height={208}
               width={208}
-
             />
             <div className="text-center">
               <h2 className="font-serif text-5xl text-black">
@@ -161,7 +170,8 @@ function Estudios({ id }: { id: string }) {
               <h3 className="text-2xl text-gray-400">@tattoovering</h3>
             </div>
             {estudio?.horario_funcionamento && getStatus(estudio)}
-            {estudio?.horario_funcionamento && renderHorario(estudio?.horario_funcionamento)}
+            {estudio?.horario_funcionamento &&
+              renderHorario(estudio?.horario_funcionamento)}
             {/* <div className="flex h-6  flex-col">
               <h2 className=" text-3xl text-gray-600">32.7k seguidores</h2>
             </div>
@@ -173,14 +183,13 @@ function Estudios({ id }: { id: string }) {
         </div>
 
         <div className=" flex w-1/2 flex-col items-center gap-5 pt-10">
-          {tatuadores.length > 0 ?
+          {tatuadores.length > 0 ? (
             tatuadores.map((tatuador) => {
-              return (
-                <CardTatuadores
-                  {...tatuador}
-                />
-              );
-            }) : <Empty description="Nenhum tatuador" />}
+              return <CardTatuadores {...tatuador} />;
+            })
+          ) : (
+            <Empty description="Nenhum tatuador" />
+          )}
         </div>
         <div className="w-1/4"></div>
       </div>

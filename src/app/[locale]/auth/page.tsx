@@ -1,10 +1,6 @@
-import { useTranslations } from 'next-intl';
-
 import SignIn from '@/components/auth/SignIn';
 
 export default function Page() {
-  const t = useTranslations('site');
-
   return (
     <div
       className="relative flex min-h-[calc(100vh-65px)] items-center justify-center bg-gray-500 bg-cover bg-no-repeat px-4 py-12 sm:px-6 lg:px-8"

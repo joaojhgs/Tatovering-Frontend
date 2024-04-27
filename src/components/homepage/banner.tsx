@@ -31,7 +31,7 @@ const Banner = () => {
         <Button
           href="#services"
           type="primary"
-          className="flex h-[40px] w-[40px] animate-bounce justify-center rounded-full"
+          className="flex size-[40px] animate-bounce justify-center rounded-full"
         >
           <DownOutlined className="my-auto" />
         </Button>

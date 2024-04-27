@@ -162,7 +162,7 @@ export default function CadastroUsuario() {
           status="success"
           icon={
             <div className="flex justify-center">
-              <div className="relative h-40 w-40">
+              <div className="relative size-40">
                 <Image src={thumbsUp} fill alt="" />
               </div>
             </div>
